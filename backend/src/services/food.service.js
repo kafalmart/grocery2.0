@@ -1,8 +1,7 @@
 import Food from "../models/Food.js";
 import Restaurant from "../models/Restaurant.js";
 import Category from "../models/Category.js";
-// helper (VERY IMPORTANT)
-const getBaseUrl = () => process.env.BASE_URL || "https://grocery-0byj.onrender.com";
+
 
 export const createFood = async (data, file) => {
   const restaurant = await Restaurant.findById(data.restaurant);
@@ -15,7 +14,7 @@ export const createFood = async (data, file) => {
   let imageUrl = "";
 
   if (file) {
-  imageUrl = `/uploads/${file.filename}`;
+  imageUrl = file.path;
 }
 
    const food = await Food.create({
@@ -51,7 +50,7 @@ export const updateFood = async (id, data, file) => {
   if (!food) throw new Error("Food not found");
 
  if (file) {
-  data.image = `/uploads/${file.filename}`;
+  data.image = file.path;
 }
 
   Object.assign(food, data);

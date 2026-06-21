@@ -96,7 +96,7 @@ export default async function RestaurantsPage() {
                 <div className="relative h-64 overflow-hidden">
 
                   <img
-                    src={`https://grocery-0byj.onrender.com${restaurant.image}`}
+                    src={restaurant.image}
                     alt={restaurant.name}
                     className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
                   />

@@ -7,9 +7,7 @@ export const createGrocery = async (req, res) => {
   try {
     const { name, price, category, stock } = req.body;
 
-    const image = req.file
-      ? `/uploads/${req.file.filename}`
-      : "";
+    const image = req.file ? req.file.path : "";
 
     const grocery = await Grocery.create({
       name,
@@ -55,9 +53,15 @@ export const getAllGrocery = async (req, res) => {
 ========================= */
 export const updateGrocery = async (req, res) => {
   try {
+    const data = { ...req.body };
+
+    if (req.file) {
+      data.image = req.file.path;
+    }
+
     const updated = await Grocery.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      data,
       { new: true }
     );
 

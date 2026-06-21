@@ -286,7 +286,7 @@ const [deleteId, setDeleteId] = useState<string | null>(null);
               <div className="h-52 bg-slate-100">
                 {r.image ? (
                   <img
-                    src={`https://grocery-0byj.onrender.com${r.image}`}
+                    src={r.image}
                     alt={r.name}
                     className="w-full h-full object-cover"
                   />
@@ -337,11 +337,7 @@ const [deleteId, setDeleteId] = useState<string | null>(null);
         closeTime: r.closeTime,
       });
 
-      setEditPreview(
-        r.image
-          ? `https://grocery-0byj.onrender.com${r.image}`
-          : ""
-      );
+     setEditPreview(r.image || "")
     }}
     className="px-4 py-3 rounded-xl bg-orange-50 text-orange-600 border border-orange-200 hover:bg-orange-100 transition font-medium"
   >

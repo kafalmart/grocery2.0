@@ -109,12 +109,12 @@ fetchCategories();
   className="bg-white p-4 rounded shadow"
 >
   {c.image && (
-    <img
-      src={`https://grocery-0byj.onrender.com/${c.image.replace(/^\/+/, "")}`}
-      alt={c.name}
-      className="w-full h-32 object-cover rounded mb-3"
-    />
-  )}
+  <img
+    src={c.image}
+    alt={c.name}
+    className="w-full h-32 object-cover rounded mb-3"
+  />
+)}
 
   <div className="flex justify-between items-center">
     <p className="font-bold">{c.name}</p>

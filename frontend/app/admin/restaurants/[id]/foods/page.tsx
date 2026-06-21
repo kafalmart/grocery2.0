@@ -77,60 +77,62 @@ const [categories, setCategories] = useState<any[]>([]);
 
   // ================= ADD FOOD =================
   const addFood = async () => {
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      
-      const restaurantId = Array.isArray(id) ? id[0] : id;
+  try {
+    const restaurantId = Array.isArray(id) ? id[0] : id;
 
-if (!restaurantId) {
-  alert("Restaurant ID not found");
-  return;
-}
-      const formData = new FormData();
-      formData.append("name", form.name.trim());
-      formData.append("description", form.description.trim());
-      formData.append("price", form.price);
-      formData.append("type", form.type);
-      
-formData.append("restaurant", restaurantId);
-formData.append("category", form.category);
-
-      if (imageFile) {
-        formData.append("image", imageFile);
-      }
-
-      await api.post("/foods", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      // reset form
-     setForm({
-  name: "",
-  description: "",
-  price: "",
-  type: "veg",
-  category: "",
-});
-
-      setImageFile(null);
-      setPreview("");
-
-      setShowModal(false);
-
-      fetchFoods();
-
-      alert("Food added successfully ✅");
-    } catch (err) {
-      console.log(err);
-      alert("Failed to add food ❌");
-    } finally {
-      setLoading(false);
+    if (!restaurantId) {
+      alert("Restaurant ID not found");
+      return;
     }
-  };
+
+    if (!form.name || !form.price || !form.category || !form.description) {
+      alert("All fields required");
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("name", form.name.trim());
+    formData.append("description", form.description.trim());
+    formData.append("price", String(Number(form.price)));
+    formData.append("type", form.type);
+    formData.append("restaurant", restaurantId);
+    formData.append("category", form.category);
+
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
+    await api.post("/foods", formData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    setForm({
+      name: "",
+      description: "",
+      price: "",
+      type: "veg",
+      category: "",
+    });
+
+    setImageFile(null);
+    setPreview("");
+    setShowModal(false);
+
+    fetchFoods();
+    alert("Food added successfully ✅");
+  } catch (err) {
+    console.log(err);
+    alert("Failed to add food ❌");
+  } finally {
+    setLoading(false);
+  }
+};
 
   // ================= DELETE FOOD =================
   const deleteFood = async (foodId: string) => {
