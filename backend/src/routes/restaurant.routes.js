@@ -7,6 +7,7 @@ import {
   getRestaurant,
   updateRestaurant,
   deleteRestaurant,
+  toggleFeatured
 } from "../controllers/restaurant.controller.js";
 
 import authMiddleware from "../middleware/auth.middleware.js";
@@ -34,7 +35,12 @@ router.put(
   upload.single("image"),
   updateRestaurant
 );
-
+router.patch(
+  "/:id/featured",
+  authMiddleware,
+  adminMiddleware,
+  toggleFeatured
+);
 router.delete(
   "/:id",
   authMiddleware,

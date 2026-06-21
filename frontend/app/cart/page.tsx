@@ -80,7 +80,7 @@ export default function CartPage() {
     return acc + (product?.price ?? 0) * item.quantity;
   }, 0);
 
-  const deliveryFee = total > 500 ? 0 : 40;
+  const deliveryFee =  30;
   const grandTotal = total + deliveryFee;
 
   // ---------------- PLACE ORDER ----------------

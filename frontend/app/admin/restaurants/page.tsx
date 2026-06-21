@@ -12,6 +12,7 @@ type Restaurant = {
   openTime: string;
   closeTime: string;
   image?: string;
+  featured?: boolean;
 };
 
 
@@ -179,6 +180,30 @@ const [deleteId, setDeleteId] = useState<string | null>(null);
     setSubmitting(false);
   }
 };
+const toggleFeatured = async (id: string) => {
+  try {
+    const res = await api.patch(
+      `/restaurants/${id}/featured`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    const updated = res.data.data;
+
+    // update UI instantly
+    setRestaurants((prev) =>
+      prev.map((r) =>
+        r._id === id ? updated : r
+      )
+    );
+  } catch (err) {
+    console.log("Toggle featured error:", err);
+  }
+};
   // ================= DELETE =================
   const deleteRestaurant = async (id: string) => {
     try {
@@ -283,7 +308,7 @@ const [deleteId, setDeleteId] = useState<string | null>(null);
               className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300"
             >
               {/* Image */}
-              <div className="h-52 bg-slate-100">
+             <div className="h-52 bg-slate-100 relative">
                 {r.image ? (
                   <img
                     src={r.image}
@@ -295,6 +320,11 @@ const [deleteId, setDeleteId] = useState<string | null>(null);
                     🍽️
                   </div>
                 )}
+                 {r.featured && (
+    <span className="absolute top-3 left-3 bg-yellow-400 text-black text-xs px-3 py-1 rounded-full font-bold">
+      Featured
+    </span>
+  )}
               </div>
 
               {/* Content */}
@@ -318,6 +348,17 @@ const [deleteId, setDeleteId] = useState<string | null>(null);
                 </div>
 
                 <div className="flex gap-2 mt-6">
+                  <button
+  onClick={() => toggleFeatured(r._id)}
+  className={`px-4 py-3 rounded-xl border transition font-medium
+    ${
+      r.featured
+        ? "bg-yellow-100 text-yellow-700 border-yellow-300 hover:bg-yellow-200"
+        : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
+    }`}
+>
+  {r.featured ? "★ Featured" : "☆ Feature"}
+</button>
   <Link
     href={`/admin/restaurants/${r._id}/foods`}
     className="flex-1 text-center bg-black text-white py-3 rounded-xl hover:bg-slate-800 transition"

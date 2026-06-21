@@ -66,3 +66,28 @@ export const deleteRestaurant = async (req, res) => {
     message: "Deleted successfully",
   });
 };
+export const toggleFeatured = async (req, res) => {
+  try {
+    const restaurant = await service.getRestaurantById(req.params.id);
+
+    if (!restaurant) {
+      return res.status(404).json({
+        success: false,
+        message: "Restaurant not found",
+      });
+    }
+
+    restaurant.featured = !restaurant.featured;
+    await restaurant.save();
+
+    res.json({
+      success: true,
+      data: restaurant,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
