@@ -132,12 +132,7 @@ shadow-orange-500/25 flex items-center justify-center shadow-lg">
             </div>
           </div>
 
-          {/* Forgot Password Link */}
-          <div className="text-right">
-            <Link href="/forgot-password" className="text-sm text-orange-600 hover:text-orange-700 transition">
-              Forgot password?
-            </Link>
-          </div>
+          
 
           {/* Submit Button */}
           <button

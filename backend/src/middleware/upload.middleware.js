@@ -1,28 +1,24 @@
 import multer from "multer";
-import fs from "fs";
-import path from "path";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinary from "../config/cloudinary.js";
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadPath = "uploads/";
-
-    // Create folder if it doesn't exist
-    fs.mkdirSync(uploadPath, {
-      recursive: true,
-    });
-
-    cb(null, uploadPath);
-  },
-
-  filename: (req, file, cb) => {
-    const ext = path.extname(
-      file.originalname
-    );
-
-    cb(
-      null,
-      Date.now() + ext
-    );
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "kafalmart",
+    allowed_formats: [
+      "jpg",
+      "jpeg",
+      "png",
+      "webp",
+    ],
+    public_id: (req, file) => {
+      return (
+        Date.now() +
+        "-" +
+        file.originalname.split(".")[0]
+      );
+    },
   },
 });
 

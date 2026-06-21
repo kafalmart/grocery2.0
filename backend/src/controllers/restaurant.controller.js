@@ -3,8 +3,9 @@ import * as service from "../services/restaurant.service.js";
 export const createRestaurant = async (req, res) => {
   try {
     const image = req.file
-      ? `/uploads/${req.file.filename}`
-      : null;
+  ? req.file.path
+  : null;
+
 
     const data = {
       ...req.body,
@@ -40,8 +41,8 @@ export const getRestaurant = async (req, res) => {
 
 export const updateRestaurant = async (req, res) => {
   const image = req.file
-    ? `/uploads/${req.file.filename}`
-    : undefined;
+  ? req.file.path
+  : undefined;
 
   const data = {
     ...req.body,
