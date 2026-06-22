@@ -119,7 +119,7 @@ const normalizedType =
         </div>
 
         {/* FLOATING INFO CARD */}
-        <div className="max-w-7xl mx-auto px-5 sm:px-6">
+        <div className="max-w-7xl my-0 mx-auto px-5 sm:px-6">
           <div className="-mt-10 md:-mt-14 relative z-20">
             <div className="bg-white rounded-[28px] shadow-2xl border border-orange-100 p-6 md:p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -172,7 +172,7 @@ const normalizedType =
 
 
       {/* MENU */}
-      <section className="max-w-7xl mx-auto px-5 sm:px-6 py-14 md:py-20">
+      <section className="max-w-7xl mx-auto px-5 sm:px-6 py-6 md:py-6">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
           <div>
             <span className="inline-flex bg-orange-100 text-[#F97316] px-4 py-2 rounded-full text-sm font-medium">
@@ -183,7 +183,7 @@ const normalizedType =
               Explore Our Dishes
             </h2>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-500 mt-1">
               {filteredFoods.length} delicious items available
             </p>
           </div>

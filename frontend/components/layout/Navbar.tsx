@@ -154,18 +154,26 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Button */}
-            <button
-              onClick={() =>
-                setMobileOpen(!mobileOpen)
-              }
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100"
-            >
-              {mobileOpen ? (
-                <X size={28} />
-              ) : (
-                <Menu size={28} />
-              )}
-            </button>
+            {/* Mobile Actions */}
+<div className="md:hidden flex items-center gap-2">
+  <Link
+    href="/cart"
+    className="relative p-2 rounded-lg hover:bg-gray-100 transition"
+  >
+    <ShoppingCart size={24} />
+  </Link>
+
+  <button
+    onClick={() => setMobileOpen(!mobileOpen)}
+    className="p-2 rounded-lg hover:bg-gray-100 transition"
+  >
+    {mobileOpen ? (
+      <X size={28} />
+    ) : (
+      <Menu size={28} />
+    )}
+  </button>
+</div>
           </div>
         </div>
       </nav>
