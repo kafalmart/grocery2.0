@@ -34,7 +34,7 @@ export const updateBanner =
           });
       }
 
-      const image = `/uploads/${req.file.filename}`;
+     const image = req.file.path.replace(/\\/g, "/");
 
       let banner =
         await Banner.findOne();

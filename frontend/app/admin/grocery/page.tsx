@@ -16,7 +16,7 @@ type Grocery = {
 export default function GroceryAdminPage() {
   const [items, setItems] = useState<Grocery[]>([]);
   const [loading, setLoading] = useState(true);
-
+const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<{
   name: string;
   price: string;
@@ -62,7 +62,7 @@ export default function GroceryAdminPage() {
   /* =========================
      CREATE GROCERY
   ========================= */
- const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
   const formData = new FormData();
@@ -72,20 +72,37 @@ export default function GroceryAdminPage() {
   formData.append("category", form.category);
   formData.append("stock", form.stock);
 
-  if (form.image instanceof File) {
-  formData.append("image", form.image);
-}
+  if (form.image) {
+    formData.append("image", form.image);
+  }
 
   try {
-    const res = await fetch(`${API}/create`, {
-      method: "POST",
+    let url = `${API}/create`;
+    let method = "POST";
+
+    if (editingId) {
+      url = `${API}/${editingId}`;
+      method = "PUT";
+    }
+
+    const res = await fetch(url, {
+      method,
       body: formData,
+      headers: editingId
+        ? {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }
+        : {},
     });
 
     const data = await res.json();
 
     if (data.success) {
-      alert("Grocery added successfully");
+      alert(
+        editingId
+          ? "Grocery updated successfully"
+          : "Grocery added successfully"
+      );
 
       setForm({
         name: "",
@@ -95,6 +112,7 @@ export default function GroceryAdminPage() {
         stock: "",
       });
 
+      setEditingId(null);
       fetchGroceries();
     } else {
       alert(data.message);
@@ -103,7 +121,22 @@ export default function GroceryAdminPage() {
     console.log(err);
   }
 };
+const handleEdit = (item: Grocery) => {
+  setEditingId(item._id);
 
+  setForm({
+    name: item.name,
+    price: String(item.price),
+    image: null,
+    category: item.category || "",
+    stock: String(item.stock || ""),
+  });
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
   /* =========================
      DELETE GROCERY
   ========================= */
@@ -197,8 +230,27 @@ export default function GroceryAdminPage() {
         type="submit"
         className="md:col-span-2 rounded-xl bg-green-600 py-3.5 font-semibold text-white transition hover:bg-green-700 hover:shadow-lg"
       >
-        Add Grocery
+         {editingId ? "Update Grocery" : "Add Grocery"}
       </button>
+      {editingId && (
+  <button
+    type="button"
+    onClick={() => {
+      setEditingId(null);
+
+      setForm({
+        name: "",
+        price: "",
+        image: null,
+        category: "",
+        stock: "",
+      });
+    }}
+    className="md:col-span-2 rounded-xl bg-slate-200 py-3 font-semibold"
+  >
+    Cancel Editing
+  </button>
+)}
     </form>
 
     {/* ================= LIST ================= */}
@@ -233,7 +285,9 @@ export default function GroceryAdminPage() {
                       {item.name}
                     </h2>
 
-                    
+                    <p className="text-sm text-slate-500">
+    {item.category}
+  </p>
                   </div>
 
                   <span className="shrink-0 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">
@@ -252,12 +306,21 @@ export default function GroceryAdminPage() {
                     </p>
                   </div>
 
-                  <button
-                    onClick={() => handleDelete(item._id)}
-                    className="rounded-xl bg-red-500 px-4 py-2 font-medium text-white transition hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
+                 <div className="flex gap-2">
+  <button
+    onClick={() => handleEdit(item)}
+    className="rounded-xl bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600"
+  >
+    Edit
+  </button>
+
+  <button
+    onClick={() => handleDelete(item._id)}
+    className="rounded-xl bg-red-500 px-4 py-2 font-medium text-white hover:bg-red-600"
+  >
+    Delete
+  </button>
+</div>
                 </div>
               </div>
             </div>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { Menu, X, LayoutDashboard, Store, Image, ShoppingBag, LogOut, Apple } from "lucide-react";
+import { Menu, X, LayoutDashboard, Store, Image, ShoppingBag, LogOut, Apple ,Ticket} from "lucide-react";
 
 export default function AdminLayout({
   children,
@@ -63,6 +63,11 @@ export default function AdminLayout({
       icon: Apple,
     },
     {
+    name: "Coupon",
+    path: "/admin/coupon",
+    icon: Ticket,
+  },
+    {
       name: "Banner",
       path: "/admin/banner",
       icon: Image,
@@ -72,6 +77,7 @@ export default function AdminLayout({
       path: "/admin/orders",
       icon: ShoppingBag,
     },
+
   ];
 
   return (

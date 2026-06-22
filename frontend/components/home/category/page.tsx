@@ -23,7 +23,7 @@ const categories = [
 
 export default function Categories() {
   return (
-    <section id="categories" className="py-24 bg-gradient-to-b from-orange-50 via-white to-white">
+    <section id="categories" className="py-4 bg-gradient-to-b from-orange-50 via-white to-white">
       <div className="max-w-6xl mx-auto px-6">
         
 

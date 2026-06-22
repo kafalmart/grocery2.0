@@ -19,17 +19,13 @@ export default function DiscountBanner({
         const res = await api.get(
           "/banner"
         );
-
+ console.log("Banner API Response:", res.data);
+    console.log("Banner Image:", res.data.data?.image);
         if (res.data.data?.image) {
-          const backendUrl =
-            process.env.NEXT_PUBLIC_API_URL?.replace(
-              "/api",
-              ""
-            );
+          
 
-          setBanner(
-            `${backendUrl}${res.data.data.image}`
-          );
+         setBanner(res.data.data.image);
+          
         }
       } catch (error) {
         console.error(

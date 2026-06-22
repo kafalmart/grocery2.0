@@ -13,10 +13,20 @@ import adminMiddleware from "../middleware/admin.middleware.js";
 const router = express.Router();
 
 /* ADMIN */
-router.post("/create",  upload.single("image"), createGrocery);
-router.put("/:id", authMiddleware, adminMiddleware, upload.single("image"), updateGrocery);
-router.delete("/:id", authMiddleware, adminMiddleware, deleteGrocery);
+router.post(
+  "/create",
+  
+  upload.single("image"),
+  createGrocery
+);
+router.put("/:id",  upload.single("image"), updateGrocery);
 
+
+router.delete(
+  "/:id",
+  
+  deleteGrocery
+);
 /* USER */
 router.get("/all", getAllGrocery);
 

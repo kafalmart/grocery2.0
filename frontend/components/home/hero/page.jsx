@@ -66,28 +66,9 @@ export default function Hero() {
       
     </p>
 
-    {/* Search */}
-    <div className="mt-8 bg-white rounded-2xl overflow-hidden shadow-lg flex flex-col sm:flex-row">
+    
 
-      <div className="flex items-center px-4 py-3 sm:py-0">
-        <Search className="w-5 h-5 text-gray-400" />
-      </div>
-
-      <input
-        type="text"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search restaurants..."
-        className="flex-1 px-4 py-4 outline-none text-gray-700"
-      />
-
-      <button
-        onClick={handleSearch}
-        className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-4 font-medium transition"
-      >
-        Search
-      </button>
-    </div>
+      
 
     {/* CTA */}
     <div className="mt-8 flex justify-center lg:justify-start">
