@@ -13,6 +13,7 @@ type Restaurant = {
   closeTime: string;
   image?: string;
   featured?: boolean;
+  isActive?: boolean;
 };
 
 
@@ -26,6 +27,7 @@ export default function AdminRestaurants() {
     address: "",
     openTime: "",
     closeTime: "",
+    isActive: true,
   });
   
   const [editImage, setEditImage] =
@@ -44,6 +46,8 @@ export default function AdminRestaurants() {
     address: "",
     openTime: "",
     closeTime: "",
+    isActive: true,
+
   });
 
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -90,6 +94,14 @@ const [deleteId, setDeleteId] = useState<string | null>(null);
       formData.append("address", form.address);
       formData.append("openTime", form.openTime);
       formData.append("closeTime", form.closeTime);
+      formData.append(
+  "isActive",
+  String(form.isActive)
+);
+formData.append(
+  "isActive",
+  String(editForm.isActive)
+);
 
       if (imageFile) {
         formData.append("image", imageFile); // MUST MATCH backend multer field
@@ -110,6 +122,7 @@ const [deleteId, setDeleteId] = useState<string | null>(null);
         address: "",
         openTime: "",
         closeTime: "",
+        isActive: true,
       });
       setImageFile(null);
       setPreview("");
@@ -376,6 +389,7 @@ const toggleFeatured = async (id: string) => {
         address: r.address,
         openTime: r.openTime,
         closeTime: r.closeTime,
+        isActive: r.isActive ?? true,
       });
 
      setEditPreview(r.image || "")
@@ -458,7 +472,24 @@ const toggleFeatured = async (id: string) => {
                   className="border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-green-500 outline-none"
                 />
               </div>
+  <select
+  value={String(form.isActive)}
+  onChange={(e) =>
+    setForm({
+      ...form,
+      isActive: e.target.value === "true",
+    })
+  }
+  className="w-full border border-slate-200 rounded-xl p-3"
+>
+  <option value="true">
+    Open / Available
+  </option>
 
+  <option value="false">
+    Closed / Unavailable
+  </option>
+</select>
               <input
                 type="file"
                 accept="image/*"
@@ -589,6 +620,24 @@ const toggleFeatured = async (id: string) => {
             className="border rounded-xl p-3"
           />
         </div>
+        <select
+  value={String(editForm.isActive)}
+  onChange={(e) =>
+    setEditForm({
+      ...editForm,
+      isActive: e.target.value === "true",
+    })
+  }
+  className="w-full border rounded-xl p-3"
+>
+  <option value="true">
+    Open / Available
+  </option>
+
+  <option value="false">
+    Closed / Unavailable
+  </option>
+</select>
 
         <input
           type="file"

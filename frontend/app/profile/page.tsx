@@ -3,6 +3,10 @@
 import { useEffect, useState } from "react";
 import { getProfile } from "@/services/auth.service";
 import { getMyOrders } from "@/services/order.service";
+import {
+  getMyFeedbacks,
+  createFeedback,
+} from "@/services/feedback.service";
 import Link from "next/link";
 
 type User = {
@@ -18,6 +22,16 @@ type OrderItem = {
   quantity: number;
   price: number;
 };
+type Feedback = {
+  _id: string;
+  order:
+    | string
+    | {
+        _id: string;
+      };
+  rating: number;
+  comment: string;
+};
 
 type Order = {
   _id: string;
@@ -31,28 +45,52 @@ type Order = {
 export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [feedbacks, setFeedbacks] =
+  useState<Feedback[]>([]);
+
+const [
+  showFeedbackModal,
+  setShowFeedbackModal,
+] = useState(false);
+
+const [
+  selectedOrder,
+  setSelectedOrder,
+] = useState("");
+
+const [rating, setRating] =
+  useState(5);
+
+const [comment, setComment] =
+  useState("");
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"profile" | "orders">("orders");
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const [profileRes, ordersData] = await Promise.all([
-          getProfile(),
-          getMyOrders(),
-        ]);
+ useEffect(() => {
+  const load = async () => {
+    try {
+      const [
+        profileRes,
+        ordersData,
+        feedbackData,
+      ] = await Promise.all([
+        getProfile(),
+        getMyOrders(),
+        getMyFeedbacks(),
+      ]);
 
-        setUser(profileRes.data);
-        setOrders(ordersData);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+      setUser(profileRes.data);
+      setOrders(ordersData);
+      setFeedbacks(feedbackData);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    load();
-  }, []);
+  load();
+}, []);
 
   const getStatusColor = (status: Order["status"]) => {
     switch (status) {
@@ -98,6 +136,46 @@ export default function ProfilePage() {
       minute: "2-digit",
     });
   };
+  const getFeedback = (
+  orderId: string
+) => {
+  return feedbacks.find((f) => {
+    const id =
+      typeof f.order === "string"
+        ? f.order
+        : f.order._id;
+
+    return id === orderId;
+  });
+};
+const handleSubmitFeedback =
+  async () => {
+    try {
+      const feedback =
+        await createFeedback(
+          selectedOrder,
+          {
+            rating,
+            comment,
+          }
+        );
+
+      setFeedbacks((prev) => [
+        feedback,
+        ...prev,
+      ]);
+
+      setShowFeedbackModal(false);
+      setRating(5);
+      setComment("");
+      setSelectedOrder("");
+    } catch (err) {
+      console.log(err);
+      alert(
+        "Failed to submit feedback"
+      );
+    }
+  };
 
   if (loading) {
     return (
@@ -126,6 +204,7 @@ export default function ProfilePage() {
       </div>
     );
   }
+  
 
 return (
   <div className="min-h-screen bg-[#FAFAFA] py-8 px-4 sm:px-6">
@@ -346,15 +425,48 @@ return (
                         ₹{order.totalAmount}
                       </p>
                     </div>
-
+  
                     {order.status !== "cancelled" &&
                       order.status !== "delivered" && (
                         <span className="bg-orange-100 text-orange-400 px-4 py-2 rounded-full text-sm font-medium">
                           🚚 Preparing Soon
                         </span>
                       )}
+                     
+                     {order.status === "delivered" &&
+  !getFeedback(order._id) && (
+    <button
+      onClick={() => {
+        setSelectedOrder(order._id);
+        setShowFeedbackModal(true);
+      }}
+      className="bg-orange-500 text-white px-4 py-2 rounded-xl"
+    >
+      ⭐ Give Feedback
+    </button>
+)}
 
                   </div>
+                  {getFeedback(order._id) && (
+  <div className="mt-5 bg-gray-50 border rounded-2xl p-4">
+    <p className="font-semibold">
+      ⭐ Rating:
+      {" "}
+      {
+        getFeedback(order._id)
+          ?.rating
+      }
+      /5
+    </p>
+
+    <p className="text-gray-600 mt-2">
+      {
+        getFeedback(order._id)
+          ?.comment
+      }
+    </p>
+  </div>
+)}
 
                 </div>
 
@@ -373,7 +485,80 @@ return (
 
         </div>
       )}
+{showFeedbackModal && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="bg-white w-[90%] max-w-md p-6 rounded-3xl">
 
+      <h2 className="text-2xl font-bold mb-5">
+        Give Feedback
+      </h2>
+
+      <label className="block mb-2">
+        Rating
+      </label>
+
+      <select
+        value={rating}
+        onChange={(e) =>
+          setRating(
+            Number(e.target.value)
+          )
+        }
+        className="w-full border p-3 rounded-xl mb-5"
+      >
+        <option value={5}>
+          ⭐⭐⭐⭐⭐
+        </option>
+        <option value={4}>
+          ⭐⭐⭐⭐
+        </option>
+        <option value={3}>
+          ⭐⭐⭐
+        </option>
+        <option value={2}>
+          ⭐⭐
+        </option>
+        <option value={1}>
+          ⭐
+        </option>
+      </select>
+
+      <textarea
+        placeholder="Write your experience..."
+        value={comment}
+        onChange={(e) =>
+          setComment(
+            e.target.value
+          )
+        }
+        rows={4}
+        className="w-full border rounded-xl p-3 mb-5"
+      />
+
+      <div className="flex justify-end gap-3">
+        <button
+          onClick={() =>
+            setShowFeedbackModal(
+              false
+            )
+          }
+          className="border px-5 py-2 rounded-xl"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={
+            handleSubmitFeedback
+          }
+          className="bg-orange-500 text-white px-5 py-2 rounded-xl"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   </div>
 );

@@ -10,6 +10,7 @@ export const createRestaurant = async (req, res) => {
     const data = {
       ...req.body,
       image,
+       isActive: req.body.isActive === "true",
     };
 
     const restaurant =
@@ -46,6 +47,7 @@ export const updateRestaurant = async (req, res) => {
 
   const data = {
     ...req.body,
+     isActive: req.body.isActive === "true",
   };
 
   if (image) data.image = image;

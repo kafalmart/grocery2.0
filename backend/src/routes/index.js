@@ -10,6 +10,7 @@ import bannerRoutes from "./banner.routes.js";
 import categoryRoutes from "./category.routes.js";
 import couponRoutes from "./coupon.routes.js";
 import groceryRoutes from "./grocery.routes.js";
+import feedbackRoutes from "./feedback.routes.js";
 const router = express.Router();
 
 router.use("/auth", authRoutes);
@@ -29,4 +30,5 @@ router.use("/banner", bannerRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/coupons", couponRoutes);
 router.use("/grocery", groceryRoutes);
+router.use("/feedback", feedbackRoutes);
 export default router;

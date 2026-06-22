@@ -14,6 +14,7 @@ type Restaurant = {
   openTime: string;
   closeTime: string;
   image: string;
+   isActive: boolean;
 };
 
 export default async function RestaurantsPage() {
@@ -102,7 +103,18 @@ export default async function RestaurantsPage() {
                   />
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-
+{/* Status Badge */}
+  <div className="absolute top-4 right-4">
+    <span
+      className={`px-3 py-1 rounded-full text-xs font-semibold ${
+        restaurant.isActive
+          ? "bg-green-500 text-white"
+          : "bg-red-500 text-white"
+      }`}
+    >
+      {restaurant.isActive ? "🟢 Open" : "🔴 Closed"}
+    </span>
+  </div>
                   
 
                 </div>
