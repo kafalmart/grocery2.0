@@ -97,6 +97,14 @@ export default function Navbar() {
               </Link>
 
               <Link
+                href="/grocery"
+                className={linkClass("/grocery")}
+              >
+                Grocery
+              </Link>
+
+
+              <Link
                 href="/cart"
                 className={`${linkClass(
                   "/cart"

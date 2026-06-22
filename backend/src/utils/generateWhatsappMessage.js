@@ -23,7 +23,7 @@ export const generateWhatsappMessage = (orders) => {
     grandTotal += order.totalAmount;
   });
 
-  message += `📦 GRAND TOTAL: ₹${grandTotal}\n\n`;
+  message += `📦 GRAND TOTAL: ₹${grandTotal} \n\n`;
 
   message += `📍 Address:\n${orders[0].address}\n\n`;
   message += `💳 Payment: ${orders[0].paymentMethod}`;

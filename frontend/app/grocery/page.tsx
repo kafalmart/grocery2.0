@@ -45,68 +45,101 @@ export default function GroceryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-[#FFFDF9] p-6">
 
       {/* HEADER */}
-      <h1 className="text-3xl font-bold mb-8">
-        🛒 Grocery Store
-      </h1>
+       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-12">
+
+        <div className="text-center lg:text-left">
+
+          <span className="inline-flex items-center rounded-full border border-orange-200 bg-orange-50 px-5 py-2 text-sm font-medium text-orange-600">
+            If you can't find the item you want you can directly message us at +91 8439051530
+          </span>
+
+          <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+            Find Your
+            <span className="text-green-600">
+              {" "}Daily essensials and Grocery
+            </span>
+          </h1>
+
+         
+
+
+        </div>
+      </section>
 
       {/* EMPTY STATE */}
       {items.length === 0 ? (
         <p className="text-gray-500">No groceries available</p>
       ) : (
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
 
           {items.map((item) => (
-            <div
-              key={item._id}
-              className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
-            >
+           <div
+  key={item._id}
+  className="bg-white rounded-2xl border border-orange-100 p-4 hover:shadow-lg transition-all duration-300"
+>
+  <div className="flex flex-col sm:flex-row gap-4">
+    {/* IMAGE */}
+    <div className="relative h-32 w-full sm:w-32 sm:h-32 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
+      <img
+        src={
+          item.image
+            ? item.image.startsWith("http")
+              ? item.image
+              : `http://localhost:5000${item.image}`
+            : "https://via.placeholder.com/300"
+        }
+        alt={item.name}
+        className="h-full w-full object-cover"
+      />
+    </div>
 
-              {/* IMAGE */}
-              <img
-                src={
-                  item.image
-                    ? item.image.startsWith("http")
-                      ? item.image
-                      : `http://localhost:5000${item.image}`
-                    : "https://via.placeholder.com/300"
-                }
-                className="h-40 w-full object-cover"
-              />
+    {/* RIGHT SECTION */}
+    <div className="flex flex-1 flex-col justify-between min-w-0">
+      {/* TOP */}
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <h2 className="text-xl font-semibold text-slate-900 truncate">
+            {item.name}
+          </h2>
 
-              {/* DETAILS */}
-              <div className="p-4">
-                <h2 className="text-lg font-semibold">
-                  {item.name}
-                </h2>
+         
+        </div>
 
-                <p className="text-green-600 font-bold mt-1">
-                  ₹{item.price}
-                </p>
+        <span className="shrink-0 rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-[#F97316]">
+         {item.category || "General"}
+        </span>
+      </div>
 
-                <p className="text-sm text-gray-500">
-                  {item.category || "General"}
-                </p>
+      {/* BOTTOM */}
+      <div className="mt-4 flex items-end justify-between gap-4">
+        <div>
+          <p className="text-sm text-slate-400">
+            Stock: {item.stock}
+          </p>
 
-                <p className="text-sm text-gray-400">
-                  Stock: {item.stock}
-                </p>
+          <p className="text-2xl font-bold text-[#F97316]">
+            ₹{item.price}
+          </p>
+        </div>
 
-                {/* BUTTON (FIXED) */}
-                <AddToCartButton
-                  item={{
-                    _id: item._id,
-                    name: item.name,
-                    price: item.price,
-                    image: item.image,
-                    type: "grocery",
-                  }}
-                />
-
-              </div>
-            </div>
+        <div className="min-w-[140px]">
+          <AddToCartButton
+            item={{
+              _id: item._id,
+              name: item.name,
+              price: item.price,
+              image: item.image,
+              type: "grocery",
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
           ))}
 
         </div>

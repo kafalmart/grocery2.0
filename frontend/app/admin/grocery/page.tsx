@@ -125,115 +125,147 @@ export default function GroceryAdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <h1 className="text-3xl font-bold mb-6">
-        Admin Grocery Panel
+    <div className="min-h-screen bg-slate-50">
+  <div className="max-w-7xl mx-auto px-5 sm:px-6 py-14">
+    {/* HEADER */}
+    <div className="mb-10">
+     
+
+      <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mt-4">
+        Grocery Management
       </h1>
 
-      {/* ================= FORM ================= */}
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-xl shadow-md grid grid-cols-1 md:grid-cols-2 gap-4 mb-10"
-      >
-        <input
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder="Grocery Name"
-          className="border p-3 rounded-lg"
-        />
+      <p className="text-slate-500 mt-2">
+        Add, manage and delete grocery items
+      </p>
+    </div>
 
-        <input
-          name="price"
-          value={form.price}
-          onChange={handleChange}
-          placeholder="Price"
-          type="number"
-          className="border p-3 rounded-lg"
-        />
+    {/* ================= FORM ================= */}
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white rounded-3xl border border-green-100 p-6 md:p-8 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-5 mb-12"
+    >
+      <input
+        name="name"
+        value={form.name}
+        onChange={handleChange}
+        placeholder="Grocery Name"
+        className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-green-600 focus:ring-4 focus:ring-green-100"
+      />
 
       <input
-  type="file"
-  accept="image/*"
-  onChange={(e) => {
-  if (!e.target.files || e.target.files.length === 0) return;
+        name="price"
+        value={form.price}
+        onChange={handleChange}
+        placeholder="Price"
+        type="number"
+        className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-green-600 focus:ring-4 focus:ring-green-100"
+      />
 
-  setForm({
-    ...form,
-    image: e.target.files[0],
-  });
-}}
-  className="border p-3 rounded-lg"
-/>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => {
+          if (!e.target.files || e.target.files.length === 0) return;
 
-        <input
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-          placeholder="Category"
-          className="border p-3 rounded-lg"
-        />
+          setForm({
+            ...form,
+            image: e.target.files[0],
+          });
+        }}
+        className="w-full rounded-xl border border-slate-200 px-4 py-3 file:mr-4 file:rounded-lg file:border-0 file:bg-green-50 file:px-4 file:py-2 file:text-sm file:font-medium file:text-green-600 hover:file:bg-green-100"
+      />
 
-        <input
-          name="stock"
-          value={form.stock}
-          onChange={handleChange}
-          placeholder="Stock"
-          type="number"
-          className="border p-3 rounded-lg"
-        />
+      <input
+        name="category"
+        value={form.category}
+        onChange={handleChange}
+        placeholder="Category"
+        className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-green-600 focus:ring-4 focus:ring-green-100"
+      />
 
-        <button
-          type="submit"
-          className="md:col-span-2 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700"
-        >
-          Add Grocery
-        </button>
-      </form>
+      <input
+        name="stock"
+        value={form.stock}
+        onChange={handleChange}
+        placeholder="Stock"
+        type="number"
+        className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-green-600 focus:ring-4 focus:ring-green-100"
+      />
 
-      {/* ================= LIST ================= */}
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="grid md:grid-cols-3 gap-6">
-          {items.map((item) => (
-            <div
-              key={item._id}
-              className="bg-white p-4 rounded-xl shadow"
-            >
-              {item.image && (
-                <img
-                  src={item.image}
-                  className="w-full h-40 object-cover rounded-lg"
-                />
-              )}
+      <button
+        type="submit"
+        className="md:col-span-2 rounded-xl bg-green-600 py-3.5 font-semibold text-white transition hover:bg-green-700 hover:shadow-lg"
+      >
+        Add Grocery
+      </button>
+    </form>
 
-              <h2 className="text-xl font-semibold mt-3">
-                {item.name}
-              </h2>
+    {/* ================= LIST ================= */}
+    {loading ? (
+      <div className="flex items-center justify-center py-20">
+        <p className="text-slate-500">Loading...</p>
+      </div>
+    ) : (
+      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+        {items.map((item) => (
+          <div
+            key={item._id}
+            className="bg-white rounded-2xl border border-green-100 p-4 hover:shadow-lg transition-all duration-300"
+          >
+            <div className="flex flex-col sm:flex-row gap-4">
+              {/* IMAGE */}
+              <div className="relative h-32 w-full sm:w-32 sm:h-32 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
+                {item.image && (
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="h-full w-full object-cover"
+                  />
+                )}
+              </div>
 
-              <p className="text-green-600 font-bold">
-                ₹{item.price}
-              </p>
+              {/* RIGHT SECTION */}
+              <div className="flex flex-1 flex-col justify-between min-w-0">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <h2 className="text-xl font-semibold text-slate-900 truncate">
+                      {item.name}
+                    </h2>
 
-              <p className="text-sm text-gray-500">
-                Category: {item.category}
-              </p>
+                    
+                  </div>
 
-              <p className="text-sm text-gray-500">
-                Stock: {item.stock}
-              </p>
+                  <span className="shrink-0 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">
+                    {item.category || "General"}
+                  </span>
+                </div>
 
-              <button
-                onClick={() => handleDelete(item._id)}
-                className="mt-3 bg-red-500 text-white px-4 py-2 rounded-lg"
-              >
-                Delete
-              </button>
+                <div className="mt-4 flex items-end justify-between gap-4">
+                  <div>
+                    <p className="text-sm text-slate-400">
+                      Stock: {item.stock}
+                    </p>
+
+                    <p className="text-2xl font-bold text-green-600">
+                      ₹{item.price}
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => handleDelete(item._id)}
+                    className="rounded-xl bg-red-500 px-4 py-2 font-medium text-white transition hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
-      )}
-    </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
   );
 }

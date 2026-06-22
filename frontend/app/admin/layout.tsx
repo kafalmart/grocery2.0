@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { Menu, X, LayoutDashboard, Store, Image, ShoppingBag, LogOut } from "lucide-react";
+import { Menu, X, LayoutDashboard, Store, Image, ShoppingBag, LogOut, Apple } from "lucide-react";
 
 export default function AdminLayout({
   children,
@@ -58,6 +58,11 @@ export default function AdminLayout({
       icon: Store,
     },
     {
+      name: "Grocery",
+      path: "/admin/grocery",
+      icon: Apple,
+    },
+    {
       name: "Banner",
       path: "/admin/banner",
       icon: Image,
@@ -96,7 +101,7 @@ export default function AdminLayout({
         {/* Sidebar */}
         <aside
           className={`
-            fixed top-0 left-0 z-50 h-full w-72 bg-black text-white
+            absolute top-0 left-0 z-40 h-full w-72 bg-black text-white
             transform transition-transform duration-300 ease-in-out
             lg:static lg:translate-x-0 lg:w-64 lg:flex lg:flex-col
             ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
