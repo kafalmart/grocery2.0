@@ -26,7 +26,7 @@ export default function Footer() {
             </div>
 
             <p className="mt-5 text-gray-400 leading-relaxed">
-              Order delicious food from your favorite restaurants
+              Order delicious food and Groceries
               and get it delivered fresh and fast to your doorstep.
             </p>
 
@@ -74,6 +74,13 @@ export default function Footer() {
                 className="hover:text-orange-500 transition"
               >
                 Restaurants
+              </Link>
+
+              <Link
+                href="/grocery"
+                className="hover:text-orange-500 transition"
+              >
+                Groceries
               </Link>
 
               <Link

@@ -8,15 +8,15 @@ import {
 const steps = [
   {
     icon: Search,
-    title: "Discover Restaurants",
+    title: "Discover Restaurants or Groceries",
     description:
-      "Browse top-rated restaurants and cuisines near you.",
+      "Browse top-rated restaurants, cuisines and good groceries near you.",
   },
   {
     icon: UtensilsCrossed,
-    title: "Choose Your Meal",
+    title: "Choose Your Item",
     description:
-      "Explore menus and select your favorite dishes.",
+      "Explore menus or items and add them to cart.",
   },
   {
     icon: MessageCircle,

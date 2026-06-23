@@ -54,15 +54,15 @@ export default function Hero() {
     </span>
 
     <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-white">
-      Delicious Food
+      Delicious Food & Groceries
       <span className="block text-orange-500">
         Delivered To You
       </span>
     </h1>
 
     <p className="mt-5 text-base sm:text-lg text-gray-300 leading-relaxed">
-      Order from your favorite restaurants and
-      get fresh meals delivered fast to your doorstep in Pithoragarh.
+      Order from your home and
+      get fresh meals and groceries delivered fast to your doorstep in Pithoragarh.
       
     </p>
 
@@ -71,12 +71,19 @@ export default function Hero() {
       
 
     {/* CTA */}
-    <div className="mt-8 flex justify-center lg:justify-start">
+    <div className="mt-8 flex gap-4 justify-center lg:justify-start">
       <button
         onClick={() => router.push("/restaurants")}
         className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-2xl font-semibold transition"
       >
         Explore Restaurants
+        <ArrowRight size={18} />
+      </button>
+       <button
+        onClick={() => router.push("/grocery")}
+        className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-2xl font-semibold transition"
+      >
+        Explore Groceries
         <ArrowRight size={18} />
       </button>
     </div>

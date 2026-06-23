@@ -33,14 +33,14 @@ export default function Contact() {
               </span>
 
               <h2 className="mt-4 text-3xl md:text-5xl font-bold text-white leading-tight">
-                Delicious Food Delivered
+                Delicious Food and Groceries Delivered
                 <span className="block text-orange-500">
                   Straight To Your Door
                 </span>
               </h2>
 
               <p className="mt-5 text-gray-300 text-base md:text-lg">
-                Browse restaurants, explore menus,
+                Browse restaurants or groceries, explore menus,
                 and place your order instantly through WhatsApp.
               </p>
 
