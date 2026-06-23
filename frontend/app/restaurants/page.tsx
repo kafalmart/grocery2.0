@@ -61,125 +61,129 @@ export default async function RestaurantsPage() {
       </section>
 
       {/* Restaurant Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    {/* Restaurant Grid */}
+<section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
 
-        {restaurants.length === 0 ? (
+  {restaurants.length === 0 ? (
 
-          <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-16 text-center">
+    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-16 text-center">
 
-            <div className="text-6xl mb-4">
-              🍽️
+      <div className="text-6xl mb-4">
+        🍽️
+      </div>
+
+      <h2 className="text-2xl font-bold text-gray-900">
+        No Restaurants Available
+      </h2>
+
+      <p className="mt-2 text-gray-500">
+        Restaurants will appear here once added.
+      </p>
+
+    </div>
+
+  ) : (
+
+    <div className="grid grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+
+      {restaurants.map((restaurant) => (
+
+        <Link
+          key={restaurant._id}
+          href={`/restaurants/${restaurant._id}`}
+          className="group bg-white rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+        >
+
+          {/* Image */}
+          <div className="relative h-36 sm:h-52 lg:h-64 overflow-hidden">
+
+            <img
+              src={restaurant.image}
+              alt={restaurant.name}
+              className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
+            />
+
+            {restaurant.featured && (
+              <span className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-yellow-400 text-black text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-full font-bold">
+                Featured
+              </span>
+            )}
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+
+            {/* Status Badge */}
+            <div className="absolute top-2 right-2 sm:top-4 sm:right-4">
+              <span
+                className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold ${
+                  restaurant.isActive
+                    ? "bg-green-500 text-white"
+                    : "bg-red-500 text-white"
+                }`}
+              >
+                {restaurant.isActive ? "🟢 Open" : "🔴 Closed"}
+              </span>
             </div>
 
-            <h2 className="text-2xl font-bold text-gray-900">
-              No Restaurants Available
+          </div>
+
+          {/* Content */}
+          <div className="p-3 sm:p-5 lg:p-6">
+
+            <h2 className="text-base sm:text-xl lg:text-2xl font-bold text-gray-900 group-hover:text-orange-500 transition line-clamp-1">
+              {restaurant.name}
             </h2>
 
-            <p className="mt-2 text-gray-500">
-              Restaurants will appear here once added.
-            </p>
+           
+            <div className="mt-3 sm:mt-5 space-y-2 sm:space-y-3">
+
+              <div className="flex items-center gap-2 text-gray-500 text-xs sm:text-sm">
+                <MapPin
+                  size={14}
+                  className="text-orange-500 shrink-0"
+                />
+                <span className="truncate">
+                  {restaurant.address}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2 text-gray-500 text-xs sm:text-sm">
+                <Clock3
+                  size={14}
+                  className="text-orange-500 shrink-0"
+                />
+                <span>
+                  {restaurant.openTime} - {restaurant.closeTime}
+                </span>
+              </div>
+
+            </div>
+
+            <div className="mt-4 sm:mt-6">
+
+              <div className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 sm:py-3 rounded-xl sm:rounded-2xl text-sm sm:text-base font-semibold flex items-center justify-center gap-2 transition">
+
+                View Menu
+
+                <ArrowRight
+                  size={16}
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                />
+
+              </div>
+
+            </div>
 
           </div>
 
-        ) : (
+        </Link>
 
-          <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
+      ))}
 
-            {restaurants.map((restaurant) => (
+    </div>
 
-              <Link
-                key={restaurant._id}
-                href={`/restaurants/${restaurant._id}`}
-                className="group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
-              >
+  )}
 
-                {/* Image */}
-                <div className="relative h-64 overflow-hidden">
-
-                  <img
-                    src={restaurant.image}
-                    alt={restaurant.name}
-                    className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
-                  />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-{/* Status Badge */}
-  <div className="absolute top-4 right-4">
-    <span
-      className={`px-3 py-1 rounded-full text-xs font-semibold ${
-        restaurant.isActive
-          ? "bg-green-500 text-white"
-          : "bg-red-500 text-white"
-      }`}
-    >
-      {restaurant.isActive ? "🟢 Open" : "🔴 Closed"}
-    </span>
-  </div>
-                  
-
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-
-                  <h2 className="text-2xl font-bold text-gray-900 group-hover:text-orange-500 transition">
-                    {restaurant.name}
-                  </h2>
-
-                  <p className="mt-3 text-gray-500 line-clamp-2">
-                    {restaurant.description}
-                  </p>
-
-                  <div className="mt-5 space-y-3">
-
-                    <div className="flex items-center gap-2 text-gray-500 text-sm">
-                      <MapPin
-                        size={16}
-                        className="text-orange-500 shrink-0"
-                      />
-                      <span className="truncate">
-                        {restaurant.address}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-gray-500 text-sm">
-                      <Clock3
-                        size={16}
-                        className="text-orange-500 shrink-0"
-                      />
-                      <span>
-                        {restaurant.openTime} - {restaurant.closeTime}
-                      </span>
-                    </div>
-
-                  </div>
-
-                  <div className="mt-6">
-
-                    <div className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-2xl font-semibold flex items-center justify-center gap-2 transition">
-
-                      View Menu
-
-                      <ArrowRight
-                        size={18}
-                        className="transition-transform duration-300 group-hover:translate-x-1"
-                      />
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </Link>
-
-            ))}
-
-          </div>
-
-        )}
-
-      </section>
+</section>
 
     </div>
   );

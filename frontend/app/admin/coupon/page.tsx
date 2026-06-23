@@ -164,44 +164,110 @@ export default function CouponAdminPage() {
         </button>
       </form>
 
+
+  <div className="md:hidden space-y-4">
+        {coupons.map((c) => (
+          <div
+            key={c._id}
+            className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm"
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="font-bold text-lg">{c.code}</h3>
+
+              <span
+                className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  c.discountType === "percentage"
+                    ? "bg-green-100 text-green-700"
+                    : "bg-blue-100 text-blue-700"
+                }`}
+              >
+                {c.discountType}
+              </span>
+            </div>
+
+            <div className="mt-4 space-y-2 text-sm text-slate-600">
+              <p>
+                <strong>Value:</strong> {c.discountValue}
+              </p>
+
+              <p>
+                <strong>Min Order:</strong> ₹{c.minOrderAmount}
+              </p>
+
+              <p>
+                <strong>Expiry:</strong>{" "}
+                {new Date(c.expiryDate).toLocaleDateString()}
+              </p>
+            </div>
+
+            <button
+              onClick={() => handleDelete(c._id)}
+              className="w-full mt-4 bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl transition"
+            >
+              Delete Coupon
+            </button>
+          </div>
+        ))}
+      </div>
+
       {/* ================= COUPON LIST ================= */}
-      <div className="bg-white p-4 rounded shadow">
-        <h2 className="text-xl font-semibold mb-4">All Coupons</h2>
+      <div className="hidden md:block bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+        <h2 className="text-xl font-semibold mb-4">
+          All Coupons
+        </h2>
 
-        <table className="w-full border">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="p-2">Code</th>
-              <th>Type</th>
-              <th>Value</th>
-              <th>Min Order</th>
-              <th>Expiry</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {coupons.map((c) => (
-              <tr key={c._id} className="text-center border-t">
-                <td className="p-2">{c.code}</td>
-                <td>{c.discountType}</td>
-                <td>{c.discountValue}</td>
-                <td>{c.minOrderAmount}</td>
-                <td>
-                  {new Date(c.expiryDate).toLocaleDateString()}
-                </td>
-                <td>
-                  <button
-                    onClick={() => handleDelete(c._id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded"
-                  >
-                    Delete
-                  </button>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b bg-slate-50">
+                <th className="p-3 text-left">Code</th>
+                <th className="p-3 text-left">Type</th>
+                <th className="p-3 text-left">Value</th>
+                <th className="p-3 text-left">Min Order</th>
+                <th className="p-3 text-left">Expiry</th>
+                <th className="p-3 text-left">Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {coupons.map((c) => (
+                <tr
+                  key={c._id}
+                  className="border-b last:border-0"
+                >
+                  <td className="p-3 font-medium">
+                    {c.code}
+                  </td>
+
+                  <td className="p-3">
+                    {c.discountType}
+                  </td>
+
+                  <td className="p-3">
+                    {c.discountValue}
+                  </td>
+
+                  <td className="p-3">
+                    ₹{c.minOrderAmount}
+                  </td>
+
+                  <td className="p-3">
+                    {new Date(c.expiryDate).toLocaleDateString()}
+                  </td>
+
+                  <td className="p-3">
+                    <button
+                      onClick={() => handleDelete(c._id)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

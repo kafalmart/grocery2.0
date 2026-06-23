@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import api from "@/services/api";
 import Link from "next/link";
-
+import { MapPin } from "lucide-react";
 type Restaurant = {
   _id: string;
   name: string;
@@ -351,30 +351,34 @@ const toggleFeatured = async (id: string) => {
                 </p>
 
                 <div className="mt-4 space-y-2">
+                  <div className="flex">
+                    <MapPin size='18' className="mr-1"></MapPin>
                   <p className="text-sm text-slate-600">
-                    📍 {r.address}
+                     {r.address}
                   </p>
+                  </div>
 
                   <p className="text-sm text-slate-600">
                     🕒 {r.openTime} - {r.closeTime}
                   </p>
                 </div>
 
-                <div className="flex gap-2 mt-6">
-                  <button
-  onClick={() => toggleFeatured(r._id)}
-  className={`px-4 py-3 rounded-xl border transition font-medium
-    ${
-      r.featured
-        ? "bg-yellow-100 text-yellow-700 border-yellow-300 hover:bg-yellow-200"
-        : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
-    }`}
->
-  {r.featured ? "★ Featured" : "☆ Feature"}
-</button>
+      <div className="mt-6 grid grid-cols-2 gap-2">
+  <button
+    onClick={() => toggleFeatured(r._id)}
+    className={`h-11 rounded-xl border transition font-medium text-sm
+      ${
+        r.featured
+          ? "bg-yellow-100 text-yellow-700 border-yellow-300 hover:bg-yellow-200"
+          : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
+      }`}
+  >
+    {r.featured ? "★ Featured" : "☆ Feature"}
+  </button>
+
   <Link
     href={`/admin/restaurants/${r._id}/foods`}
-    className="flex-1 text-center bg-black text-white py-3 rounded-xl hover:bg-slate-800 transition"
+    className="h-11 flex items-center justify-center rounded-xl bg-black text-white hover:bg-slate-800 transition font-medium text-sm"
   >
     Menu
   </Link>
@@ -392,16 +396,16 @@ const toggleFeatured = async (id: string) => {
         isActive: r.isActive ?? true,
       });
 
-     setEditPreview(r.image || "")
+      setEditPreview(r.image || "");
     }}
-    className="px-4 py-3 rounded-xl bg-orange-50 text-orange-600 border border-orange-200 hover:bg-orange-100 transition font-medium"
+    className="h-11 rounded-xl bg-orange-50 text-orange-600 border border-orange-200 hover:bg-orange-100 transition font-medium text-sm"
   >
     Edit
   </button>
 
   <button
     onClick={() => setDeleteId(r._id)}
-    className="px-4 py-3 rounded-xl bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition font-medium"
+    className="h-11 rounded-xl bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition font-medium text-sm"
   >
     Delete
   </button>
