@@ -1,4 +1,5 @@
 "use client";
+import { MessageCircle } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import AddToCartButton from "@/components/AddToCartButton"; // ✅ IMPORTANT FIX
@@ -66,9 +67,18 @@ const [selectedCategory, setSelectedCategory] = useState("All");
 
         <div className="text-center lg:text-left">
 
-          <span className="inline-flex items-center rounded-full border border-orange-200 bg-orange-50 px-5 py-2 text-sm font-medium text-orange-600">
-            If you can't find the item you want you can directly message us at +91 8439051530
-          </span>
+          
+           <a
+  href="https://wa.me/918439051530"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-5 py-2 text-sm font-medium text-green-700 transition hover:bg-green-100 hover:border-green-300"
+>
+  <MessageCircle className="h-5 w-5" />
+  If you can't find the item you want, message us on WhatsApp at
+  <span className="font-semibold">+91 8439051530</span>
+</a>
+          
 
           <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
             Find Your

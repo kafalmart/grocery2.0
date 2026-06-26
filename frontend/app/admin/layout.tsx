@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { Menu, X, LayoutDashboard, Store, Image, ShoppingBag, LogOut, Apple ,Ticket} from "lucide-react";
+import { Menu, X, LayoutDashboard, Store, Image, ShoppingBag, LogOut, Apple ,Ticket, Mail} from "lucide-react";
 
 export default function AdminLayout({
   children,
@@ -76,6 +76,11 @@ export default function AdminLayout({
       name: "Orders",
       path: "/admin/orders",
       icon: ShoppingBag,
+    },
+    {
+      name: "Feedback",
+      path: "/admin/feedback",
+      icon: Mail,
     },
 
   ];
