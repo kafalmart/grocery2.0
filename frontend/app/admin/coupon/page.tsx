@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 
 const API = `${process.env.NEXT_PUBLIC_API_URL}/coupons`;
 export default function CouponAdminPage() {
-  const [coupons, setCoupons] = useState([]);
+  
   const [form, setForm] = useState({
     code: "",
     discountType: "percentage",
@@ -13,7 +13,16 @@ export default function CouponAdminPage() {
     maxDiscount: "",
     expiryDate: "",
   });
-
+  interface Coupon {
+  _id: string;
+  code: string;
+  discountType: "percentage" | "fixed";
+  discountValue: number;
+  minOrderAmount: number;
+  maxDiscount: number;
+  expiryDate: string;
+}
+const [coupons, setCoupons] = useState<Coupon[]>([]);
   /* =========================
      FETCH ALL COUPONS
   ========================= */
@@ -34,14 +43,18 @@ export default function CouponAdminPage() {
   /* =========================
      HANDLE INPUT CHANGE
   ========================= */
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
+const handleChange = (
+  e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+) => {
+  setForm({
+    ...form,
+    [e.target.name]: e.target.value,
+  });
+};
   /* =========================
      CREATE COUPON
   ========================= */
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -77,7 +90,7 @@ export default function CouponAdminPage() {
   /* =========================
      DELETE COUPON
   ========================= */
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     try {
       const res = await fetch(`${API}/${id}`, {
         method: "DELETE",

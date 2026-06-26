@@ -15,6 +15,7 @@ type Restaurant = {
   closeTime: string;
   image: string;
    isActive: boolean;
+    featured: boolean
 };
 
 export default async function RestaurantsPage() {
