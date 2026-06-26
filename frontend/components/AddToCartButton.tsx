@@ -91,7 +91,7 @@ await api.post("/cart", payload, {
           : "bg-gray-100 text-gray-700"
       }`}
     >
-      Half ₹{item.halfPrice}
+      Half 
     </button>
 
     <button
@@ -103,7 +103,7 @@ await api.post("/cart", payload, {
           : "bg-gray-100 text-gray-700"
       }`}
     >
-      Full ₹{item.fullPrice}
+      Full
     </button>
   </div>
 )}

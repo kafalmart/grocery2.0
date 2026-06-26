@@ -115,16 +115,9 @@ export default async function RestaurantDetail({
                 </p>
 
                 <div className="flex items-center gap-6 mt-6">
-                  <div className="flex items-center gap-2 text-white/80">
-                    <Star size={18} className="text-yellow-400 fill-yellow-400" />
-                    <span className="font-medium">4.8</span>
-                    <span className="text-sm text-white/60">(2.3k reviews)</span>
-                  </div>
-                  <div className="w-px h-6 bg-white/20" />
-                  <div className="flex items-center gap-2 text-white/80">
-                    <Clock3 size={18} className="text-orange-300" />
-                    <span className="text-sm">{restaurant.openTime} - {restaurant.closeTime}</span>
-                  </div>
+                  
+                
+                  
                 </div>
               </div>
             </div>
@@ -206,7 +199,7 @@ export default async function RestaurantDetail({
                   },
                 }}
                 scroll={false}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full transition-all"
+                className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 shadow-sm hover:shadow-md transition"
               >
                 <span
                   className={`text-sm font-semibold transition-colors ${
@@ -216,7 +209,7 @@ export default async function RestaurantDetail({
                   Veg
                 </span>
 
-                <div className="relative h-7 w-14 rounded-full bg-slate-200 p-1 cursor-pointer">
+                <div className="relative h-8 w-16 rounded-full bg-slate-200 p-1 cursor-pointer flex items-center">
                   <div
                     className={`h-5 w-5 rounded-full shadow-md transition-all duration-300 ${
                       selectedTypes.includes("veg")
@@ -286,6 +279,7 @@ export default async function RestaurantDetail({
                   className="group bg-white rounded-2xl border border-orange-100/60 overflow-hidden hover:shadow-2xl hover:border-orange-200 transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="flex flex-col">
+                    
                     {/* Image Section with Veg/Non-Veg Badge on Right */}
                     <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-orange-50 to-amber-50">
                       <img
@@ -314,13 +308,7 @@ export default async function RestaurantDetail({
                         </span>
                       </div>
                       
-                      {/* Availability indicator - Bottom Right */}
-                      <div className="absolute bottom-3 right-3">
-                        <span className="flex items-center gap-1.5 bg-black/70 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-medium shadow-lg">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                          In Stock
-                        </span>
-                      </div>
+                      
                     </div>
 
                     {/* Content Section */}
