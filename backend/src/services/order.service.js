@@ -33,9 +33,8 @@ export const createOrder = async (userId, data) => {
 
   // ================= TOTAL =================
   const cartSubTotal = cart.items.reduce((acc, item) => {
-    const product = item.food || item.grocery;
-    return acc + (product?.price ?? 0) * item.quantity;
-  }, 0);
+    return acc + item.price * item.quantity;
+}, 0);
 
   // ================= COUPON =================
   let couponCode = "";
@@ -103,14 +102,14 @@ export const createOrder = async (userId, data) => {
       product: item.food._id,
       productModel: "Food",
       name: item.food.name,
-      price: item.food.price,
+     price: item.price,
       quantity: item.quantity,
     }));
 
     const subTotal = group.items.reduce(
-      (acc, item) => acc + item.food.price * item.quantity,
-      0
-    );
+    (acc, item) => acc + item.price * item.quantity,
+    0
+);
 
     const restaurantDiscount =
       cartSubTotal > 0
@@ -145,14 +144,14 @@ export const createOrder = async (userId, data) => {
       product: item.grocery._id,
       productModel: "Grocery",
       name: item.grocery.name,
-      price: item.grocery.price,
+     price: item.price,
       quantity: item.quantity,
     }));
 
-    const subTotal = groupedItems.grocery.reduce(
-      (acc, item) => acc + item.grocery.price * item.quantity,
-      0
-    );
+   const subTotal = groupedItems.grocery.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+);
 
     const order = await Order.create({
       user: userId,

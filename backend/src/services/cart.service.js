@@ -71,7 +71,7 @@ export const getCart = async (
     select:
       "name image price",
   },
-  { path: "items.grocery", select: "name image price" },
+
 ]);
 return cart;}
 
