@@ -1,4 +1,23 @@
 import Grocery from "../models/Grocery.js";
+import cloudinary from "../config/cloudinary.js";
+import streamifier from "streamifier";
+
+// ================= CLOUDINARY HELPER =================
+const uploadToCloudinary = (buffer) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "kafalmart",
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      }
+    );
+
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
+};
 
 /* =========================
    🧑‍💼 ADMIN: ADD GROCERY
@@ -7,7 +26,12 @@ export const createGrocery = async (req, res) => {
   try {
     const { name, price, category, stock } = req.body;
 
-    const image = req.file ? req.file.path : "";
+    let image = "";
+
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file.buffer);
+      image = result.secure_url;
+    }
 
     const grocery = await Grocery.create({
       name,
@@ -30,11 +54,13 @@ export const createGrocery = async (req, res) => {
 };
 
 /* =========================
-   📦 GET ALL GROCERY (USER)
+   📦 GET ALL GROCERY
 ========================= */
 export const getAllGrocery = async (req, res) => {
   try {
-    const items = await Grocery.find({ isActive: true });
+    const items = await Grocery.find({
+      isActive: true,
+    });
 
     res.json({
       success: true,
@@ -53,16 +79,21 @@ export const getAllGrocery = async (req, res) => {
 ========================= */
 export const updateGrocery = async (req, res) => {
   try {
-    const data = { ...req.body };
+    const data = {
+      ...req.body,
+    };
 
     if (req.file) {
-      data.image = req.file.path;
+      const result = await uploadToCloudinary(req.file.buffer);
+      data.image = result.secure_url;
     }
 
     const updated = await Grocery.findByIdAndUpdate(
       req.params.id,
       data,
-      { new: true }
+      {
+        new: true,
+      }
     );
 
     if (!updated) {
@@ -90,7 +121,9 @@ export const updateGrocery = async (req, res) => {
 ========================= */
 export const deleteGrocery = async (req, res) => {
   try {
-    const deleted = await Grocery.findByIdAndDelete(req.params.id);
+    const deleted = await Grocery.findByIdAndDelete(
+      req.params.id
+    );
 
     if (!deleted) {
       return res.status(404).json({

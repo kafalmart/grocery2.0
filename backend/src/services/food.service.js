@@ -1,8 +1,24 @@
 import Food from "../models/Food.js";
 import Restaurant from "../models/Restaurant.js";
 import Category from "../models/Category.js";
+import cloudinary from "../config/cloudinary.js";
+import streamifier from "streamifier";
 
+const uploadToCloudinary = (buffer) => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: "kafalmart",
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      }
+    );
 
+    streamifier.createReadStream(buffer).pipe(uploadStream);
+  });
+};
 export const createFood = async (data, file) => {
   const restaurant = await Restaurant.findById(data.restaurant);
 
@@ -13,8 +29,9 @@ export const createFood = async (data, file) => {
 
   let imageUrl = "";
 
-  if (file) {
-  imageUrl = file.path;
+if (file) {
+  const result = await uploadToCloudinary(file.buffer);
+  imageUrl = result.secure_url;
 }
 
    const food = await Food.create({
@@ -55,10 +72,10 @@ export const getRestaurantMenu = async (restaurantId) => {
 export const updateFood = async (id, data, file) => {
   const food = await Food.findById(id);
   if (!food) throw new Error("Food not found");
-
-  if (file) {
-    data.image = file.path;
-  }
+if (file) {
+  const result = await uploadToCloudinary(file.buffer);
+  data.image = result.secure_url;
+}
 
   data.hasHalf = data.hasHalf === "true";
 

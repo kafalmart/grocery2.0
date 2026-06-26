@@ -1,10 +1,30 @@
 import * as service from "../services/restaurant.service.js";
+import cloudinary from "../config/cloudinary.js";
+import streamifier from "streamifier";
 
+const uploadToCloudinary = (buffer) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "kafalmart",
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      }
+    );
+
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
+};
 export const createRestaurant = async (req, res) => {
   try {
-    const image = req.file
-  ? req.file.path
-  : null;
+  let image = null;
+
+if (req.file) {
+  const result = await uploadToCloudinary(req.file.buffer);
+  image = result.secure_url;
+}
 
 
     const data = {
@@ -41,9 +61,12 @@ export const getRestaurant = async (req, res) => {
 };
 
 export const updateRestaurant = async (req, res) => {
-  const image = req.file
-  ? req.file.path
-  : undefined;
+  let image;
+
+if (req.file) {
+  const result = await uploadToCloudinary(req.file.buffer);
+  image = result.secure_url;
+}
 
   const data = {
     ...req.body,
