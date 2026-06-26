@@ -68,16 +68,25 @@ const [selectedCategory, setSelectedCategory] = useState("All");
         <div className="text-center lg:text-left">
 
           
-           <a
-  href="https://wa.me/918439051530"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-5 py-2 text-sm font-medium text-green-700 transition hover:bg-green-100 hover:border-green-300"
->
-  <MessageCircle className="h-5 w-5" />
-  If you can't find the item you want, message us on WhatsApp at
-  <span className="font-semibold">+91 8439051530</span>
-</a>
+        <div className="w-full flex justify-center px-4">
+  <div className="w-full max-w-5xl rounded-3xl sm:rounded-full border border-orange-200 bg-orange-50 shadow-sm px-4 sm:px-6 py-4">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p className="text-center sm:text-left text-sm sm:text-base font-medium text-orange-600 leading-relaxed">
+        if the item you want is not here, you can directly message us here -
+      </p>
+
+      <a
+        href="https://wa.me/918439051530"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-green-600 border border-green-200 transition-all duration-200 hover:bg-green-100 hover:border-green-300 hover:scale-105"
+      >
+        <MessageCircle className="h-5 w-5" />
+        <span>WhatsApp</span>
+      </a>
+    </div>
+  </div>
+</div>
           
 
           <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
