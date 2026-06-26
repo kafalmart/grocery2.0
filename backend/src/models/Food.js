@@ -29,10 +29,22 @@ const foodSchema = new mongoose.Schema(
       default: "",
     },
 
-    price: {
-      type: Number,
-      required: true,
-    },
+   hasHalf: {
+  type: Boolean,
+  default: false,
+},
+
+halfPrice: {
+  type: Number,
+  default: 0,
+  min: 0,
+},
+
+fullPrice: {
+  type: Number,
+  required: true,
+  min: 0,
+},
 
     type: {
       type: String,

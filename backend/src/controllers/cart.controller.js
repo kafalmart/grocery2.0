@@ -2,13 +2,17 @@ import * as cartService from "../services/cart.service.js";
 
 export const addToCart = async (req, res) => {
   try {
-    const { itemId, quantity, type } = req.body;
+    const { itemId,
+  quantity,
+  type,
+  portion,} = req.body;
 
     const cart = await cartService.addToCart(
       req.user._id,
       itemId,
       quantity,
-      type
+      type,
+       portion
     );
 
     res.status(201).json({

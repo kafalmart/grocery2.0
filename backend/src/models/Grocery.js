@@ -20,7 +20,15 @@ const grocerySchema = new mongoose.Schema(
 
     category: {
       type: String,
-      default: "general",
+      enum: [
+        "Vegetables",
+        "Fruits",
+        "Snacks",
+        "Daily Essentials",
+        "Kitchen Grocery",
+        "Other",
+      ],
+      default: "Other",
     },
 
     stock: {

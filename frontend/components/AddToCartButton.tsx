@@ -9,9 +9,17 @@ type Props = {
   item: {
     _id: string;
     name: string;
-    price: number;
+
+    hasHalf?: boolean;
+
+    halfPrice?: number;
+    fullPrice?: number;
+
+    price?: number;
+
     image?: string;
-    type?: "food" | "grocery"; // 👈 IMPORTANT
+
+    type?: "food" | "grocery";
   };
 };
 
@@ -19,7 +27,8 @@ export default function AddToCartButton({ item }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
-
+const [portion, setPortion] =
+  useState<"half" | "full">("full");
   const handleAddToCart = async () => {
     const token = localStorage.getItem("token");
 
@@ -33,19 +42,21 @@ export default function AddToCartButton({ item }: Props) {
     setIsLoading(true);
 
     try {
-      await api.post(
-        "/cart",
-        {
-          itemId: item._id,
-          quantity: 1,
-          type: item.type || "food", // 👈 AUTO SUPPORT BOTH
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+     const payload: any = {
+  itemId: item._id,
+  quantity: 1,
+  type: item.type || "food",
+};
+
+if (item.type === "food") {
+  payload.portion = portion;
+}
+
+await api.post("/cart", payload, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 
       alert(`${item.name} added to cart`);
     } catch (error: any) {
@@ -68,6 +79,35 @@ export default function AddToCartButton({ item }: Props) {
   };
 
   return (
+    <div>
+      {item.hasHalf && (
+  <div className="mb-3 flex gap-2">
+    <button
+      type="button"
+      onClick={() => setPortion("half")}
+      className={`flex-1 rounded-lg py-2 text-sm font-medium transition ${
+        portion === "half"
+          ? "bg-green-600 text-white"
+          : "bg-gray-100 text-gray-700"
+      }`}
+    >
+      Half ₹{item.halfPrice}
+    </button>
+
+    <button
+      type="button"
+      onClick={() => setPortion("full")}
+      className={`flex-1 rounded-lg py-2 text-sm font-medium transition ${
+        portion === "full"
+          ? "bg-green-600 text-white"
+          : "bg-gray-100 text-gray-700"
+      }`}
+    >
+      Full ₹{item.fullPrice}
+    </button>
+  </div>
+)}
+    
     <button
       onClick={handleAddToCart}
       disabled={isLoading}
@@ -82,5 +122,6 @@ export default function AddToCartButton({ item }: Props) {
         "Add To Cart"
       )}
     </button>
+    </div>
   );
 }

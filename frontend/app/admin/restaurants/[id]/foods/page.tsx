@@ -9,7 +9,9 @@ type Food = {
   _id: string;
   name: string;
   description: string;
-  price: number;
+ hasHalf: boolean;
+  halfPrice: number;
+  fullPrice: number;
   image?: string;
   type: "veg" | "non-veg";
   category?: {
@@ -38,13 +40,18 @@ export default function AdminRestaurantFoods() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [preview, setPreview] = useState("");
 
-  const [form, setForm] = useState({
-    name: "",
-    description: "",
-    price: "",
-    type: "veg",
-    category: "",
-  });
+ const [form, setForm] = useState({
+  name: "",
+  description: "",
+
+  hasHalf: false,
+
+  halfPrice: "",
+  fullPrice: "",
+
+  type: "veg",
+  category: "",
+});
 
   // ================= FETCH FOODS =================
   const fetchFoods = async () => {
@@ -89,7 +96,9 @@ export default function AdminRestaurantFoods() {
     setForm({
       name: "",
       description: "",
-      price: "",
+      hasHalf: false,
+halfPrice: "",
+fullPrice: "",
       type: "veg",
       category: "",
     });
@@ -109,7 +118,7 @@ export default function AdminRestaurantFoods() {
         return;
       }
 
-      if (!form.name || !form.price || !form.description || !form.category) {
+      if (!form.name || !form.fullPrice || !form.description || !form.category) {
         alert("All fields required");
         return;
       }
@@ -118,7 +127,9 @@ export default function AdminRestaurantFoods() {
 
       formData.append("name", form.name.trim());
       formData.append("description", form.description.trim());
-      formData.append("price", String(Number(form.price)));
+      formData.append("hasHalf", String(form.hasHalf));
+formData.append("halfPrice", form.halfPrice);
+formData.append("fullPrice", form.fullPrice);
       formData.append("type", form.type);
       formData.append("restaurant", restaurantId);
       formData.append("category", form.category);
@@ -162,7 +173,9 @@ export default function AdminRestaurantFoods() {
     setForm({
       name: food.name,
       description: food.description,
-      price: String(food.price),
+     hasHalf: food.hasHalf,
+halfPrice: String(food.halfPrice),
+fullPrice: String(food.fullPrice),
       type: food.type,
       category:
         typeof food.category === "object"
@@ -249,7 +262,21 @@ export default function AdminRestaurantFoods() {
                   : "Unassigned"}
               </p>
 
-              <p className="font-bold mt-2">₹{food.price}</p>
+             {food.hasHalf ? (
+  <>
+    <p className="font-bold text-green-600">
+      Half : ₹{food.halfPrice}
+    </p>
+
+    <p className="font-bold text-orange-600">
+      Full : ₹{food.fullPrice}
+    </p>
+  </>
+) : (
+  <p className="font-bold mt-2">
+    ₹{food.fullPrice}
+  </p>
+)}
 
               {food.image && (
                 <img
@@ -319,15 +346,47 @@ export default function AdminRestaurantFoods() {
               }
             />
 
-            <input
-              type="number"
-              className="w-full border p-2 mb-2"
-              placeholder="Price"
-              value={form.price}
-              onChange={(e) =>
-                setForm({ ...form, price: e.target.value })
-              }
-            />
+           <label className="flex items-center gap-2 mb-3">
+  <input
+    type="checkbox"
+    checked={form.hasHalf}
+    onChange={(e) =>
+      setForm({
+        ...form,
+        hasHalf: e.target.checked,
+      })
+    }
+  />
+  Available in Half
+</label>
+
+{form.hasHalf && (
+  <input
+    type="number"
+    className="w-full border p-2 mb-2"
+    placeholder="Half Price"
+    value={form.halfPrice}
+    onChange={(e) =>
+      setForm({
+        ...form,
+        halfPrice: e.target.value,
+      })
+    }
+  />
+)}
+
+<input
+  type="number"
+  className="w-full border p-2 mb-2"
+  placeholder="Full Price"
+  value={form.fullPrice}
+  onChange={(e) =>
+    setForm({
+      ...form,
+      fullPrice: e.target.value,
+    })
+  }
+/>
 
             <select
               className="w-full border p-2 mb-2"

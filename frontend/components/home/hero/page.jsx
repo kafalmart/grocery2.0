@@ -24,10 +24,9 @@ export default function Hero() {
        <div className="inline-flex items-center mb-3 gap-2 rounded-full bg-orange-50 px-4 py-2 border border-orange-100">
   <MapPin className="h-4 w-4 text-orange-500 flex-shrink-0" />
 
-  <span className="text-sm sm:text-base text-gray-700">
-    ( Pithoragarh city ) Only
-    
-  </span>
+<span className="text-sm sm:text-base text-gray-700">
+   Serving only in Pithoragarh City • Open: 8:00 AM – 10:00 PM
+</span>
 </div>
 
 

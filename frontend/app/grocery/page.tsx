@@ -17,7 +17,17 @@ type Grocery = {
 export default function GroceryPage() {
   const [items, setItems] = useState<Grocery[]>([]);
   const [loading, setLoading] = useState(true);
+const CATEGORIES = [
+  "All",
+  "Vegetables",
+  "Fruits",
+  "Snacks",
+  "Daily Essentials",
+  "Kitchen Grocery",
+  "Other",
+];
 
+const [selectedCategory, setSelectedCategory] = useState("All");
   /* ================= FETCH GROCERY ================= */
   const fetchGroceries = async () => {
     try {
@@ -43,10 +53,14 @@ export default function GroceryPage() {
       </div>
     );
   }
+  const filteredItems =
+  selectedCategory === "All"
+    ? items
+    : items.filter((item) => item.category === selectedCategory);
 
   return (
     <div className="min-h-screen bg-[#FFFDF9] p-6">
-
+   
       {/* HEADER */}
        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-12">
 
@@ -68,17 +82,34 @@ export default function GroceryPage() {
 
         </div>
       </section>
+       <div className="max-w-7xl mx-auto mb-8 overflow-x-auto">
+  <div className="flex gap-3 pb-2">
+    {CATEGORIES.map((category) => (
+      <button
+        key={category}
+        onClick={() => setSelectedCategory(category)}
+        className={`whitespace-nowrap rounded-full px-5 py-2 font-medium transition ${
+          selectedCategory === category
+            ? "bg-green-500 text-white"
+            : "bg-white border border-green-200 text-gray-700 hover:bg-green-50"
+        }`}
+      >
+        {category}
+      </button>
+    ))}
+  </div>
+</div>
 
       {/* EMPTY STATE */}
-      {items.length === 0 ? (
+      {filteredItems.length === 0 ? (
         <p className="text-gray-500">No groceries available</p>
       ) : (
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
 
-          {items.map((item) => (
+        {filteredItems.map((item) => (
            <div
   key={item._id}
-  className="bg-white rounded-2xl border border-orange-100 p-4 hover:shadow-lg transition-all duration-300"
+  className="bg-white rounded-2xl border border-green-100 p-4 hover:shadow-lg transition-all duration-300"
 >
   <div className="flex flex-col sm:flex-row gap-4">
     {/* IMAGE */}

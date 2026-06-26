@@ -20,6 +20,11 @@ const cartItemSchema = new mongoose.Schema(
       default: 1,
       min: 1,
     },
+    portion: {
+    type: String,
+    enum: ["half", "full"],
+    default: "full",
+  },
 
     price: {
       type: Number,

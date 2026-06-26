@@ -31,6 +31,14 @@ const [editingId, setEditingId] = useState<string | null>(null);
   stock: "",
 });
 
+const CATEGORIES = [
+  "Vegetables",
+  "Fruits",
+  "Snacks",
+  "Daily Essentials",
+  "Kitchen Grocery",
+  "Other",
+];
   /* =========================
      FETCH GROCERIES
   ========================= */
@@ -53,11 +61,14 @@ const [editingId, setEditingId] = useState<string | null>(null);
   /* =========================
      HANDLE INPUT
   ========================= */
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+ const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+) => {
+  setForm({
+    ...form,
+    [e.target.name]: e.target.value,
+  });
+};
 
   /* =========================
      CREATE GROCERY
@@ -209,13 +220,20 @@ const handleEdit = (item: Grocery) => {
         className="w-full rounded-xl border border-slate-200 px-4 py-3 file:mr-4 file:rounded-lg file:border-0 file:bg-green-50 file:px-4 file:py-2 file:text-sm file:font-medium file:text-green-600 hover:file:bg-green-100"
       />
 
-      <input
-        name="category"
-        value={form.category}
-        onChange={handleChange}
-        placeholder="Category"
-        className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-green-600 focus:ring-4 focus:ring-green-100"
-      />
+      <select
+  name="category"
+  value={form.category}
+  onChange={handleChange}
+  className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-green-600 focus:ring-4 focus:ring-green-100 bg-white"
+>
+  <option value="">Select Category</option>
+
+  {CATEGORIES.map((category) => (
+    <option key={category} value={category}>
+      {category}
+    </option>
+  ))}
+</select>
 
       <input
         name="stock"

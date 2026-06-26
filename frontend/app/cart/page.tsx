@@ -15,6 +15,9 @@ type CartItem = {
     name: string;
     price: number;
     image?: string;
+    hasHalf?: boolean;
+    halfPrice?: number;
+    fullPrice?: number;
   } | null;
 
   grocery?: {
@@ -25,6 +28,9 @@ type CartItem = {
   } | null;
 
   quantity: number;
+  portion?: "half" | "full";
+
+  price: number;
 };
 
 export default function CartPage() {
@@ -120,10 +126,9 @@ const handleApplyCoupon = async () => {
   };
 
   // ---------------- TOTAL (FIXED) ----------------
-  const total = cart.reduce((acc, item) => {
-    const product = item.food || item.grocery;
-    return acc + (product?.price ?? 0) * item.quantity;
-  }, 0);
+ const total = cart.reduce((acc, item) => {
+  return acc + item.price * item.quantity;
+}, 0);
 
   const deliveryFee =  30;
   const grandTotal = total + deliveryFee - discount;
@@ -315,13 +320,18 @@ const handleApplyCoupon = async () => {
                           <h3 className="text-lg font-semibold text-slate-900">
                             {product.name}
                           </h3>
+                          {item.food?.hasHalf && (
+  <p className="text-xs text-gray-500">
+    Portion: {item.portion === "half" ? "Half" : "Full"}
+  </p>
+)}
 
                           <p className="text-green-600 font-bold text-lg mt-1">
-                            ₹{product.price}
-                          </p>
+  ₹{item.price}
+</p>
 
                           <p className="text-slate-500 text-sm mt-1">
-                            Total ₹{product.price * item.quantity}
+                             Total ₹{item.price * item.quantity}
                           </p>
 
                         </div>

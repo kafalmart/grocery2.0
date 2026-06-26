@@ -20,7 +20,14 @@ export const createFood = async (data, file) => {
    const food = await Food.create({
     name: data.name,
     description: data.description,
-    price: data.price,
+    hasHalf: data.hasHalf === "true",
+
+halfPrice:
+  data.hasHalf === "true"
+    ? Number(data.halfPrice)
+    : 0,
+
+fullPrice: Number(data.fullPrice),
     type: data.type,
     restaurant: data.restaurant,
     category: data.category,
@@ -49,16 +56,26 @@ export const updateFood = async (id, data, file) => {
   const food = await Food.findById(id);
   if (!food) throw new Error("Food not found");
 
- if (file) {
-  data.image = file.path;
-}
+  if (file) {
+    data.image = file.path;
+  }
+
+  data.hasHalf = data.hasHalf === "true";
+
+  // Convert string values to numbers
+  data.fullPrice = Number(data.fullPrice);
+
+  if (data.hasHalf) {
+    data.halfPrice = Number(data.halfPrice);
+  } else {
+    data.halfPrice = 0;
+  }
 
   Object.assign(food, data);
   await food.save();
 
   return food;
 };
-
 export const deleteFood = async (id) => {
   const food = await Food.findByIdAndDelete(id);
   if (!food) throw new Error("Food not found");

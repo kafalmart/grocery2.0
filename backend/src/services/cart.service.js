@@ -1,7 +1,11 @@
 import Cart from "../models/Cart.js";
 import Food from "../models/Food.js";
 import Grocery from "../models/Grocery.js";
-export const addToCart = async (userId, itemId, quantity, type) => {
+export const addToCart = async (userId,
+  itemId,
+  quantity,
+  type,
+  portion = "full") => {
   let item;
 
   if (type === "food") {
@@ -19,9 +23,15 @@ export const addToCart = async (userId, itemId, quantity, type) => {
   }
 
   const existingItem = cart.items.find((i) => {
-    if (type === "food") return i.food?.toString() === itemId;
-    return i.grocery?.toString() === itemId;
-  });
+  if (type === "food") {
+    return (
+      i.food?.toString() === itemId &&
+      i.portion === portion
+    );
+  }
+
+  return i.grocery?.toString() === itemId;
+});
 
   if (existingItem) {
     existingItem.quantity += quantity;
@@ -30,7 +40,17 @@ export const addToCart = async (userId, itemId, quantity, type) => {
       food: type === "food" ? item._id : null,
       grocery: type === "grocery" ? item._id : null,
       quantity,
-      price: item.price,
+     price:
+  type === "food"
+    ? portion === "half"
+      ? item.halfPrice
+      : item.fullPrice
+    : item.price,
+
+portion:
+  type === "food"
+    ? portion
+    : "full",
     });
   }
 
@@ -41,7 +61,16 @@ export const getCart = async (
   userId
 ) => {
   const cart = await Cart.findOne({ user: userId }).populate([
-  { path: "items.food", select: "name image price" },
+   {
+    path: "items.food",
+    select:
+      "name image hasHalf halfPrice fullPrice",
+  },
+  {
+    path: "items.grocery",
+    select:
+      "name image price",
+  },
   { path: "items.grocery", select: "name image price" },
 ]);
 return cart;}
