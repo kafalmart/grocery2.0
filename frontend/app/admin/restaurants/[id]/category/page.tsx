@@ -48,7 +48,6 @@ if (imageFile) {
 await api.post("/categories", formData, {
   headers: {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
-    "Content-Type": "multipart/form-data",
   },
 });
 
@@ -146,19 +145,25 @@ fetchCategories();
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            <input
-  type="file"
-  accept="image/*"
-  className="w-full border p-2 mb-3"
-  onChange={(e) => {
-    const file = e.target.files?.[0];
+          <label className="block mb-3">
+  <span className="block text-sm font-medium mb-2">
+    Category Image
+  </span>
 
-    if (file) {
+  <input
+    type="file"
+    accept="image/*"
+    className="w-full rounded-lg border border-gray-300 p-2 cursor-pointer"
+    onChange={(e) => {
+      const file = e.target.files?.[0];
+
+      if (!file) return;
+
       setImageFile(file);
       setPreview(URL.createObjectURL(file));
-    }
-  }}
-/>
+    }}
+  />
+</label>
 
 {preview && (
   <img
