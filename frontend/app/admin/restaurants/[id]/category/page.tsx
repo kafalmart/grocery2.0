@@ -166,11 +166,17 @@ fetchCategories();
 </label>
 
 {preview && (
-  <img
-    src={preview}
-    alt="Preview"
-    className="w-full h-40 object-cover rounded mb-3"
-  />
+  <div className="mb-4">
+    <p className="text-sm font-medium mb-2">
+      Image Preview
+    </p>
+
+    <img
+      src={preview}
+      alt="Preview"
+      className="w-full h-44 rounded-lg border object-cover"
+    />
+  </div>
 )}
 
             <div className="flex justify-end gap-2">
