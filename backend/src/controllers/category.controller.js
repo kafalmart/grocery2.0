@@ -1,19 +1,39 @@
 import Category from "../models/Category.js";
+import cloudinary from "../config/cloudinary.js";
+import streamifier from "streamifier";
 
+const uploadToCloudinary = (buffer) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "kafalmart/categories",
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      }
+    );
+
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
+};
 // CREATE CATEGORY
 export const createCategory = async (req, res) => {
   try {
     const { name, restaurant } = req.body;
-    let imageUrl = "";
 
-if (req.file) {
-  imageUrl = req.file ? req.file.path : "";
-}
+    let image = "";
+
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file.buffer);
+      image = result.secure_url;
+    }
+
     const category = await Category.create({
-  name,
-  restaurant,
-  image: imageUrl,
-});
+      name,
+      restaurant,
+      image,
+    });
 
     res.status(201).json({
       success: true,
@@ -38,13 +58,17 @@ export const updateCategory = async (req, res) => {
         message: "Category not found",
       });
     }
-category.name = name || category.name;
 
-if (req.file) {
-  category.image = req.file.path;
-}
+    if (name) {
+      category.name = name;
+    }
 
-await category.save();
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file.buffer);
+      category.image = result.secure_url;
+    }
+
+    await category.save();
 
     res.json({
       success: true,
