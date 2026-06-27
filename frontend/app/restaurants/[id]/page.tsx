@@ -88,7 +88,7 @@ export default async function RestaurantDetail({
       <section className="relative">
         <div className="relative h-[360px] md:h-[460px] lg:h-[520px] overflow-hidden">
           <img
-            src={`${process.env.NEXT_PUBLIC_API_URL}${restaurant.image}`}
+           src={restaurant.image}
             alt={restaurant.name}
             className="w-full h-full object-cover"
           />
