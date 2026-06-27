@@ -191,60 +191,23 @@ export default function CategoryPage() {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 pb-32">
-            {categories.map(
-              (category) => {
-                const active =
-                  selectedCategories.includes(
-                    category.id
-                  );
+           {categories.map((category) => {
+  const active = selectedCategories.includes(category.id);
 
-                const imageUrl = category.image
-  ? category.image.startsWith("http")
-    ? category.image
-    : `${BASE_URL}${category.image.startsWith("/") ? "" : "/"}${category.image}`
-  : "https://via.placeholder.com/300";
-
-                return (
-                <button
-  key={category.id}
-  onClick={() => toggleCategory(category.id)}
-  className={`relative h-28 w-full overflow-hidden rounded-[28px] transition-all duration-300 ${
-    active
-      ? "ring-4 ring-orange-500 shadow-2xl scale-[1.03]"
-      : "bg-white shadow-md hover:shadow-xl hover:-translate-y-1"
-  }`}
->
-  {/* IMAGE */}
- <div className="relative h-full w-full">
-  <img
-    src={imageUrl}
-    alt={category.name}
-    className="h-full w-full object-cover"
-    onError={(e) => {
-      e.currentTarget.src = "https://via.placeholder.com/300";
-    }}
-  />
-
-  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-</div>
-
-  {/* NAME */}
-
-  {/* BADGE */}
-  {active && (
-    <div className="absolute top-3 right-3 bg-orange-500 text-white text-xs px-3 py-1 rounded-full font-semibold shadow-lg">
-      Selected
-    </div>
-  )}
-  <div className="absolute bottom-3 left-3 right-3">
-    <h3 className="text-white text-sm md:text-lg font-bold text-left">
+  return (
+    <button
+      key={category.id}
+      onClick={() => toggleCategory(category.id)}
+      className={`flex items-center justify-center h-16 w-full rounded-2xl border text-base font-semibold transition-all duration-200 ${
+        active
+          ? "bg-orange-500 text-white border-orange-500 shadow-lg"
+          : "bg-white text-slate-700 border-slate-200 hover:border-orange-400 hover:bg-orange-50"
+      }`}
+    >
       {category.name}
-    </h3>
-  </div>
-</button>
-                );
-              }
-            )}
+    </button>
+  );
+})}
           </div>
         )}
       </div>
