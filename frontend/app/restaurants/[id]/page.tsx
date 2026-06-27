@@ -283,11 +283,7 @@ export default async function RestaurantDetail({
                     {/* Image Section with Veg/Non-Veg Badge on Right */}
                     <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-orange-50 to-amber-50">
                       <img
-                        src={
-                          food.image
-                            ? `${process.env.NEXT_PUBLIC_API_URL}${food.image}`
-                            : "/placeholder-food.jpg"
-                        }
+                        src={food.image}
                         alt={food.name}
                         className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
