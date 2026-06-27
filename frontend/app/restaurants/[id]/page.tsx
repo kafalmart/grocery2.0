@@ -88,7 +88,7 @@ export default async function RestaurantDetail({
       <section className="relative">
         <div className="relative h-[360px] md:h-[460px] lg:h-[520px] overflow-hidden">
           <img
-            src={`https://grocery-0byj.onrender.com${restaurant.image}`}
+            src={`${process.env.NEXT_PUBLIC_API_URL}${restaurant.image}`}
             alt={restaurant.name}
             className="w-full h-full object-cover"
           />
@@ -285,7 +285,7 @@ export default async function RestaurantDetail({
                       <img
                         src={
                           food.image
-                            ? `https://grocery-0byj.onrender.com${food.image}`
+                            ? `${process.env.NEXT_PUBLIC_API_URL}${food.image}`
                             : "/placeholder-food.jpg"
                         }
                         alt={food.name}
