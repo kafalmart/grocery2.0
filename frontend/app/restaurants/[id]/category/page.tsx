@@ -16,7 +16,7 @@ const BASE_URL =
 type Category = {
   id: string;
   name: string;
-  image?: string;
+   image?: string | null;
 };
 
 export default function CategoryPage() {
@@ -198,13 +198,11 @@ export default function CategoryPage() {
                     category.id
                   );
 
-                const imageUrl =
-                  category.image
-                    ? `${BASE_URL}/${category.image.replace(
-                        /^\/+/,
-                        ""
-                      )}`
-                    : "/category-images/default.png";
+                const imageUrl = category.image
+  ? category.image.startsWith("http")
+    ? category.image
+    : `${BASE_URL}${category.image.startsWith("/") ? "" : "/"}${category.image}`
+  : "https://via.placeholder.com/300";
 
                 return (
                 <button
@@ -217,13 +215,14 @@ export default function CategoryPage() {
   }`}
 >
   {/* IMAGE */}
-  <div className="relative h-full w-full">
-  <Image
+ <div className="relative h-full w-full">
+  <img
     src={imageUrl}
     alt={category.name}
-    fill
-    className="object-cover"
-    unoptimized
+    className="h-full w-full object-cover"
+    onError={(e) => {
+      e.currentTarget.src = "https://via.placeholder.com/300";
+    }}
   />
 
   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
