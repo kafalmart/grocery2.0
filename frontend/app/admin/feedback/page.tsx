@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAllFeedbacks } from "../../../services/feedback.service";
+import { getAllFeedbacks, toggleFeatured } from "../../../services/feedback.service";
 
 type Feedback = {
   _id: string;
   rating: number;
   comment: string;
   createdAt: string;
+   featured: boolean; 
   user: {
     _id: string;
     name: string;
@@ -21,9 +22,32 @@ type Feedback = {
   };
 };
 
+
 export default function AdminFeedbackPage() {
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  const handleToggleFeatured = async (id: string) => {
+  try {
+    await toggleFeatured(id);
+
+    setFeedbacks((prev) =>
+      prev.map((item) =>
+        item._id === id
+          ? {
+              ...item,
+              featured: !item.featured,
+            }
+          : item
+      )
+    );
+  } catch (err: any) {
+    alert(
+      err?.response?.data?.message ||
+      "Something went wrong"
+    );
+  }
+};
 
   useEffect(() => {
     const loadFeedbacks = async () => {
@@ -130,7 +154,22 @@ export default function AdminFeedbackPage() {
                     ).toLocaleString()}
                   </p>
                 </div>
+                
               </div>
+              <button
+  onClick={() =>
+    handleToggleFeatured(feedback._id)
+  }
+  className={`mt-4 px-4 py-2 rounded-lg text-white ${
+    feedback.featured
+      ? "bg-red-500"
+      : "bg-green-600"
+  }`}
+>
+  {feedback.featured
+    ? "Remove from Testimonials"
+    : "Feature as Testimonial"}
+</button>
 
               {feedback.comment && (
                 <div className="mt-5 bg-gray-50 rounded-2xl p-4">

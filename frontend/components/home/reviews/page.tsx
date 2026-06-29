@@ -1,34 +1,70 @@
-import { Star, Quote } from "lucide-react";
+"use client";
 
-const reviews = [
-  {
-    name: "Rahul Sharma",
-    location: "Meerut",
-    review:
-      "The food arrived hot and fresh. The restaurant options are excellent and ordering through WhatsApp was incredibly simple.",
-  },
-  {
-    name: "Priya Verma",
-    location: "Noida",
-    review:
-      "Loved the variety of cuisines available. The delivery was quick and the food quality exceeded my expectations.",
-  },
-  {
-    name: "Aman Gupta",
-    location: "Ghaziabad",
-    review:
-      "One of the best food ordering experiences I've had. Easy ordering, fast support, and delicious meals every time.",
-  },
-];
+import { useEffect, useState } from "react";
+import { Star, Quote } from "lucide-react";
+import { getFeaturedFeedbacks } from "@/services/feedback.service";
+
+type Review = {
+  _id: string;
+  rating: number;
+  comment: string;
+  user: {
+    name: string;
+  };
+};
 
 export default function Reviews() {
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadReviews = async () => {
+      try {
+        const data = await getFeaturedFeedbacks();
+        setReviews(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadReviews();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center">
+            <h2 className="text-3xl md:text-5xl font-bold">
+              What Our Customers Say
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-14">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="h-64 rounded-3xl bg-gray-100 animate-pulse"
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (reviews.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-16 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         {/* Heading */}
         <div className="text-center max-w-3xl mx-auto">
-
           <span className="text-orange-500 font-semibold uppercase tracking-wider">
             Testimonials
           </span>
@@ -38,28 +74,26 @@ export default function Reviews() {
           </h2>
 
           <p className="mt-4 text-gray-500 text-base md:text-lg">
-            Pithoragarh people trust us for their
-            favorite meals and fast delivery.
+            Pithoragarh people trust us for their favorite meals and fast
+            delivery.
           </p>
-
         </div>
 
         {/* Reviews */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-14">
-
           {reviews.map((review) => (
             <div
-              key={review.name}
+              key={review._id}
               className="group relative bg-[#fafafa] border border-gray-200 rounded-3xl p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
             >
-              {/* Quote Icon */}
+              {/* Quote */}
               <div className="absolute top-6 right-6 text-orange-100">
                 <Quote size={50} />
               </div>
 
-              {/* Stars */}
+              {/* Rating */}
               <div className="flex gap-1">
-                {[...Array(5)].map((_, index) => (
+                {[...Array(review.rating)].map((_, index) => (
                   <Star
                     key={index}
                     size={18}
@@ -68,33 +102,41 @@ export default function Reviews() {
                 ))}
               </div>
 
-              {/* Review */}
+              {/* Empty Stars */}
+              <div className="flex gap-1 mt-1">
+                {[...Array(5 - review.rating)].map((_, index) => (
+                  <Star
+                    key={index}
+                    size={18}
+                    className="text-gray-300"
+                  />
+                ))}
+              </div>
+
+              {/* Comment */}
               <p className="mt-6 text-gray-600 leading-relaxed relative z-10">
-                "{review.review}"
+                "{review.comment}"
               </p>
 
               {/* User */}
               <div className="mt-8 pt-6 border-t border-gray-200">
-
                 <div className="flex items-center gap-4">
 
-                  {/* Avatar */}
                   <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center font-bold text-orange-500">
-                    {review.name.charAt(0)}
+                    {review.user.name.charAt(0).toUpperCase()}
                   </div>
 
                   <div>
                     <h4 className="font-semibold text-gray-900">
-                      {review.name}
+                      {review.user.name}
                     </h4>
 
                     <p className="text-sm text-gray-500">
-                      {review.location}
+                      Verified Customer
                     </p>
                   </div>
 
                 </div>
-
               </div>
             </div>
           ))}

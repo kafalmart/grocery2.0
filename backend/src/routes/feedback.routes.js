@@ -5,14 +5,28 @@ import {
   createFeedback,
   getAllFeedbacks,
   getMyFeedbacks,
+   toggleFeatured,
+  getFeaturedFeedbacks,
 } from "../controllers/feedback.controller.js";
 
 const router = express.Router();
+
+router.get(
+  "/featured",
+  getFeaturedFeedbacks
+);
+
 
 router.post(
   "/:orderId",
   authMiddleware,
   createFeedback
+);
+router.patch(
+  "/:id/featured",
+  authMiddleware,
+  adminMiddleware,
+  toggleFeatured
 );
 
 router.get(
@@ -26,5 +40,7 @@ router.get(
   authMiddleware,
   getMyFeedbacks
 );
+
+
 
 export default router;

@@ -6,7 +6,7 @@ const feedbackSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Order",
       required: true,
-      unique: true, // one feedback per order
+      unique: true,
     },
 
     user: {
@@ -27,13 +27,15 @@ const feedbackSchema = new mongoose.Schema(
       trim: true,
       default: "",
     },
+
+    featured: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.model(
-  "Feedback",
-  feedbackSchema
-);
+export default mongoose.model("Feedback", feedbackSchema);

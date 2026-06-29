@@ -46,3 +46,21 @@ export const getAllFeedbacks = async () => {
 
   return res.data.data;
 };
+
+export const toggleFeatured = async (id: string) => {
+  const res = await api.patch(
+    `/feedback/${id}/featured`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+
+  return res.data.data;
+};
+export const getFeaturedFeedbacks = async () => {
+  const res = await api.get("/feedback/featured");
+  return res.data.data;
+};

@@ -39,6 +39,43 @@ export const getAllFeedbacks =
       });
     }
   };
+  export const toggleFeatured = async (req, res) => {
+  try {
+    const feedback =
+      await feedbackService.toggleFeatured(
+        req.params.id
+      );
+
+    res.json({
+      success: true,
+      data: feedback,
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+export const getFeaturedFeedbacks = async (
+  req,
+  res
+) => {
+  try {
+    const data =
+      await feedbackService.getFeaturedFeedbacks();
+
+    res.json({
+      success: true,
+      data,
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
   export const getMyFeedbacks = async (
   req,
   res

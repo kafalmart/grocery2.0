@@ -11,6 +11,9 @@ export const createFeedback = async (
   if (!order) {
     throw new Error("Order not found");
   }
+  
+
+
 
   const alreadyExists =
     await Feedback.findOne({
@@ -31,6 +34,30 @@ export const createFeedback = async (
   });
 };
 
+export const getFeaturedFeedbacks =
+  async () => {
+    return await Feedback.find({
+      featured: true,
+    })
+      .populate("user", "name")
+      .sort({
+        createdAt: -1,
+      })
+      .limit(3);
+  };
+export const toggleFeatured = async (id) => {
+  const feedback = await Feedback.findById(id);
+
+  if (!feedback) {
+    throw new Error("Feedback not found");
+  }
+
+  feedback.featured = !feedback.featured;
+
+  await feedback.save();
+
+  return feedback;
+};
 export const getAllFeedbacks =
   async () => {
     return await Feedback.find()
