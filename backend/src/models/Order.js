@@ -119,6 +119,7 @@ const orderSchema = new mongoose.Schema(
       type: String,
       enum: [
         "pending",
+        "accepted",
         "confirmed",
         "preparing",
         "ready",
@@ -133,7 +134,21 @@ const orderSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+deliveryPartner: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User",
+  default: null,
+},
 
+acceptedAt: {
+  type: Date,
+  default: null,
+},
+
+deliveredAt: {
+  type: Date,
+  default: null,
+},
 const Order = mongoose.model("Order", orderSchema);
 
 export default Order;
