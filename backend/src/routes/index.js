@@ -11,24 +11,68 @@ import categoryRoutes from "./category.routes.js";
 import couponRoutes from "./coupon.routes.js";
 import groceryRoutes from "./grocery.routes.js";
 import feedbackRoutes from "./feedback.routes.js";
+import partnerRoutes from "./partner.routes.js";
+
 const router = express.Router();
 
+/* =========================
+   AUTH
+========================= */
 router.use("/auth", authRoutes);
 
-router.use(
-  "/restaurants",
-  restaurantRoutes
-);
-router.use(
-  "/admin",
-  adminRoutes
-);
+/* =========================
+   RESTAURANT
+========================= */
+router.use("/restaurants", restaurantRoutes);
+
+/* =========================
+   ADMIN
+========================= */
+router.use("/admin", adminRoutes);
+
+/* =========================
+   FOOD
+========================= */
 router.use("/foods", foodRoutes);
+
+/* =========================
+   CART
+========================= */
 router.use("/cart", cartRoutes);
+
+/* =========================
+   ORDERS
+========================= */
 router.use("/orders", orderRoutes);
+
+/* =========================
+   DELIVERY PARTNER
+========================= */
+router.use("/partner", partnerRoutes);
+
+/* =========================
+   BANNER
+========================= */
 router.use("/banner", bannerRoutes);
+
+/* =========================
+   CATEGORY
+========================= */
 router.use("/categories", categoryRoutes);
+
+/* =========================
+   COUPONS
+========================= */
 router.use("/coupons", couponRoutes);
+
+/* =========================
+   GROCERY
+========================= */
 router.use("/grocery", groceryRoutes);
+
+/* =========================
+   FEEDBACK
+========================= */
 router.use("/feedback", feedbackRoutes);
+
 export default router;
