@@ -1,9 +1,8 @@
-import "./config/env.js"; // 👈 MUST BE FIRST
-
+import "./config/env.js";
 import app from "./app.js";
-import connectDB from "./config/db.js";
+// import connectDB from "./config/db.js";
 
-connectDB();
+// connectDB();
 
 const PORT = process.env.PORT || 5000;
 
