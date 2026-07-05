@@ -129,26 +129,29 @@ const orderSchema = new mongoose.Schema(
       ],
       default: "pending",
     },
+
+    // ================= DELIVERY PARTNER =================
+    deliveryPartner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+
+    acceptedAt: {
+      type: Date,
+      default: null,
+    },
+
+    deliveredAt: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
   }
 );
-deliveryPartner: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: "User",
-  default: null,
-},
 
-acceptedAt: {
-  type: Date,
-  default: null,
-},
-
-deliveredAt: {
-  type: Date,
-  default: null,
-},
 const Order = mongoose.model("Order", orderSchema);
 
 export default Order;
