@@ -1,21 +1,19 @@
 import Order from "../models/Order.js";
 
 /* =========================
-   Get Available Orders
+   Available Orders
 ========================= */
 export const getAvailableOrders = async (req, res) => {
   try {
     const orders = await Order.find({
       status: "ready",
       deliveryPartner: null,
-    })
-      .sort({ createdAt: -1 });
+    }).sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
-      data: orders,
+      orders,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -54,9 +52,8 @@ export const acceptOrder = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Order accepted successfully",
-      data: order,
+      order,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -85,10 +82,9 @@ export const pickedUpOrder = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Order picked up",
-      data: order,
+      message: "Order picked up successfully",
+      order,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -119,9 +115,8 @@ export const deliveredOrder = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Order delivered successfully",
-      data: order,
+      order,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
