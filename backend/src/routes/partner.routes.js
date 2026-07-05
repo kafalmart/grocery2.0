@@ -23,16 +23,16 @@ router.get("/orders", getAvailableOrders);
 /* =========================
    Accept Order
 ========================= */
-router.put("/:id/accept", acceptOrder);
+router.put("/orders/:id/accept", acceptOrder);
 
 /* =========================
-   Picked Up
+   Picked Up Order
 ========================= */
-router.put("/:id/picked", pickedUpOrder);
+router.put("/orders/:id/picked", pickedUpOrder);
 
 /* =========================
-   Delivered
+   Delivered Order
 ========================= */
-router.put("/:id/delivered", deliveredOrder);
+router.put("/orders/:id/delivered", deliveredOrder);
 
 export default router;
