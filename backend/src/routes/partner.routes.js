@@ -1,5 +1,5 @@
 import express from "express";
-import authMiddleware from "../middleware/auth.middleware.js";
+import partnerAuthMiddleware from "../middleware/partnerAuth.middleware.js";
 
 import {
   getAvailableOrders,
@@ -10,18 +10,29 @@ import {
 
 const router = express.Router();
 
-router.use(authMiddleware);
+/* =========================
+   Partner Authentication
+========================= */
+router.use(partnerAuthMiddleware);
 
-// Get all orders ready for delivery
+/* =========================
+   Available Orders
+========================= */
 router.get("/orders", getAvailableOrders);
 
-// Accept an order
+/* =========================
+   Accept Order
+========================= */
 router.put("/:id/accept", acceptOrder);
 
-// Mark picked up
+/* =========================
+   Picked Up
+========================= */
 router.put("/:id/picked", pickedUpOrder);
 
-// Mark delivered
+/* =========================
+   Delivered
+========================= */
 router.put("/:id/delivered", deliveredOrder);
 
 export default router;
