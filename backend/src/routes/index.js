@@ -11,7 +11,10 @@ import categoryRoutes from "./category.routes.js";
 import couponRoutes from "./coupon.routes.js";
 import groceryRoutes from "./grocery.routes.js";
 import feedbackRoutes from "./feedback.routes.js";
+
+// Delivery Partner Routes
 import partnerRoutes from "./partner.routes.js";
+import partnerAuthRoutes from "./partnerAuth.routes.js";
 
 const router = express.Router();
 
@@ -46,7 +49,12 @@ router.use("/cart", cartRoutes);
 router.use("/orders", orderRoutes);
 
 /* =========================
-   DELIVERY PARTNER
+   DELIVERY PARTNER LOGIN
+========================= */
+router.use("/partner-auth", partnerAuthRoutes);
+
+/* =========================
+   DELIVERY PARTNER ORDERS
 ========================= */
 router.use("/partner", partnerRoutes);
 
