@@ -44,7 +44,7 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
 
-    // ================= RESTAURANT (OPTIONAL for grocery) =================
+    // ================= RESTAURANT =================
     restaurant: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Restaurant",
@@ -133,7 +133,7 @@ const orderSchema = new mongoose.Schema(
     // ================= DELIVERY PARTNER =================
     deliveryPartner: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Partner", // ✅ Changed from User to Partner
       default: null,
     },
 
