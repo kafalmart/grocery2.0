@@ -5,17 +5,21 @@ import {
   getPartnerProfile,
 } from "../controllers/partnerAuth.controller.js";
 
-import authMiddleware from "../middleware/auth.middleware.js";
+import partnerAuthMiddleware from "../middleware/partnerAuth.middleware.js";
 
 const router = express.Router();
 
-// Login
+/* =========================
+   Partner Login
+========================= */
 router.post("/login", loginPartner);
 
-// Profile
+/* =========================
+   Partner Profile
+========================= */
 router.get(
   "/profile",
-  authMiddleware,
+  partnerAuthMiddleware,
   getPartnerProfile
 );
 
