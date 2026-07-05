@@ -3,6 +3,65 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 /* =========================
+   Partner Register
+========================= */
+export const registerPartner = async (req, res) => {
+  try {
+    const {
+      name,
+      phone,
+      password,
+      vehicleType,
+      vehicleNumber,
+    } = req.body;
+
+    if (!name || !phone || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Name, phone and password are required",
+      });
+    }
+
+    const existingPartner = await Partner.findOne({ phone });
+
+    if (existingPartner) {
+      return res.status(400).json({
+        success: false,
+        message: "Partner already exists",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const partner = await Partner.create({
+      name,
+      phone,
+      password: hashedPassword,
+      vehicleType,
+      vehicleNumber,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Partner registered successfully",
+      partner: {
+        _id: partner._id,
+        name: partner.name,
+        phone: partner.phone,
+        vehicleType: partner.vehicleType,
+        vehicleNumber: partner.vehicleNumber,
+      },
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/* =========================
    Partner Login
 ========================= */
 export const loginPartner = async (req, res) => {
