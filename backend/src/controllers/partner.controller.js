@@ -116,6 +116,29 @@ export const pickedUpOrder = async (req, res) => {
       success: false,
       message: error.message,
     });
+     /* =========================
+   Current Partner Orders
+========================= */
+export const getMyCurrentOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({
+      deliveryPartner: req.user._id,
+      status: {
+        $in: ["out_for_delivery", "accepted", "ready"],
+      },
+    }).sort({ acceptedAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
   }
 };
 
