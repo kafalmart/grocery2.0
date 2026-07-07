@@ -3,6 +3,7 @@ import partnerAuthMiddleware from "../middleware/partnerAuth.middleware.js";
 
 import {
   getAvailableOrders,
+  getOrderDetails,
   acceptOrder,
   pickedUpOrder,
   deliveredOrder,
@@ -19,6 +20,11 @@ router.use(partnerAuthMiddleware);
    Available Orders
 ========================= */
 router.get("/orders", getAvailableOrders);
+
+/* =========================
+   Order Details
+========================= */
+router.get("/orders/:id", getOrderDetails);
 
 /* =========================
    Accept Order
