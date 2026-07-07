@@ -23,6 +23,32 @@ export const getAvailableOrders = async (req, res) => {
 };
 
 /* =========================
+   Order Details
+========================= */
+export const getOrderDetails = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      order,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/* =========================
    Accept Order
 ========================= */
 export const acceptOrder = async (req, res) => {
