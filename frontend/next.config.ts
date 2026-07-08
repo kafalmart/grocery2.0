@@ -11,6 +11,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination:
+          "https://slategray-narwhal-323627.hostingersite.com/api/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
