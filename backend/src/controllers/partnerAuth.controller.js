@@ -105,7 +105,7 @@ export const loginPartner = async (req, res) => {
         expiresIn: "30d",
       }
     );
-     /* =========================
+/* =========================
    Toggle Online Status
 ========================= */
 export const toggleOnlineStatus = async (req, res) => {
