@@ -105,38 +105,6 @@ export const loginPartner = async (req, res) => {
         expiresIn: "30d",
       }
     );
-/* =========================
-   Toggle Online Status
-========================= */
-export const toggleOnlineStatus = async (req, res) => {
-  try {
-    const partner = await Partner.findById(req.user._id);
-
-    if (!partner) {
-      return res.status(404).json({
-        success: false,
-        message: "Partner not found",
-      });
-    }
-
-    partner.isOnline = !partner.isOnline;
-
-    await partner.save();
-
-    res.status(200).json({
-      success: true,
-      message: partner.isOnline
-        ? "Partner is Online"
-        : "Partner is Offline",
-      isOnline: partner.isOnline,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
 
     res.status(200).json({
       success: true,
@@ -176,6 +144,40 @@ export const getPartnerProfile = async (req, res) => {
     res.status(200).json({
       success: true,
       partner,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/* =========================
+   Toggle Online Status
+========================= */
+export const toggleOnlineStatus = async (req, res) => {
+  try {
+    const partner = await Partner.findById(req.user._id);
+
+    if (!partner) {
+      return res.status(404).json({
+        success: false,
+        message: "Partner not found",
+      });
+    }
+
+    partner.isOnline = !partner.isOnline;
+
+    await partner.save();
+
+    res.status(200).json({
+      success: true,
+      message: partner.isOnline
+        ? "Partner is Online"
+        : "Partner is Offline",
+      isOnline: partner.isOnline,
     });
 
   } catch (error) {
