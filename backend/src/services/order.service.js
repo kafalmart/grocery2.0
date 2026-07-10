@@ -135,6 +135,7 @@ export const createOrder = async (userId, data) => {
       notes: data.notes,
       paymentMethod: data.paymentMethod || "cod",
     });
+    io.emit("new-order", order);
 
     orders.push(order);
 
