@@ -137,6 +137,8 @@ export const createOrder = async (userId, data) => {
     });
 
     orders.push(order);
+
+    getIO().emit("new-order", order);
   }
 
   // ================= GROCERY ORDER =================
