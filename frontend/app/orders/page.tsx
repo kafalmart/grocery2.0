@@ -1,3 +1,4 @@
 export default function OrdersPage() {
-  return <div>Orders Page</div>;
+  return <div>Thank You For Ordering
+               Track Your Order In Profile</div>;
 }
