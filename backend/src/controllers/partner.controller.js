@@ -6,9 +6,16 @@ import Order from "../models/Order.js";
 export const getAvailableOrders = async (req, res) => {
   try {
     const orders = await Order.find({
-      status: "ready",
-      deliveryPartner: null,
-    }).sort({ createdAt: -1 });
+  status: {
+    $in: [
+      "pending",
+      "accepted",
+      "preparing",
+      "ready",
+    ],
+  },
+  deliveryPartner: null,
+}).sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
@@ -94,7 +101,7 @@ export const acceptOrder = async (req, res) => {
     }
 
     order.deliveryPartner = req.user._id;
-    order.status = "out_for_delivery";
+    order.status = "accepted";
     order.acceptedAt = new Date();
 
     await order.save();
