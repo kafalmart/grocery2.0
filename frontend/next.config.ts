@@ -19,6 +19,14 @@ const nextConfig: NextConfig = {
         destination:
           "https://slategray-narwhal-323627.hostingersite.com/api/:path*",
       },
+      {
+        source: "/adminpanel",
+        destination: "https://epicurean-command.vercel.app",
+      },
+      {
+        source: "/adminpanel/:path*",
+        destination: "https://epicurean-command.vercel.app/:path*",
+      },
     ];
   },
 };
