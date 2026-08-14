@@ -91,10 +91,10 @@ export default function Footer() {
               </Link>
 
               <Link
-                href="/profile"
+                href="/support"
                 className="hover:text-orange-500 transition"
               >
-                Profile
+                Help & Support
               </Link>
             </div>
           </div>
@@ -151,14 +151,19 @@ export default function Footer() {
 
           <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
 
-            
+            <Link
+              href="/support"
+              className="text-slate-500 hover:text-green-600"
+            >
+              Support Center
+            </Link>
 
             <Link
-            href="/terms"
-            className="text-slate-500 hover:text-green-600"
-          >
-            Terms & Conditions
-          </Link>
+              href="/terms"
+              className="text-slate-500 hover:text-green-600"
+            >
+              Terms & Conditions
+            </Link>
 
             <Link
               href="/policy"
