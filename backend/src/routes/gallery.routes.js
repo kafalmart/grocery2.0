@@ -1,16 +1,25 @@
 import express from "express";
 import {
-  getBanner,
-  updateBanner,
-} from "../controllers/banner.controller.js";
+  getGallery,
+  addGalleryImage,
+  deleteGalleryImage,
+} from "../controllers/gallery.controller.js";
+
 import upload from "../middleware/upload.middleware.js";
+
 const router = express.Router();
 
-router.get("/", getBanner);
-router.put(
-  "/",
+router.get("/", getGallery);
+
+router.post(
+  "/upload",
   upload.single("image"),
-  updateBanner
+  addGalleryImage
+);
+
+router.delete(
+  "/:id",
+  deleteGalleryImage
 );
 
 export default router;
