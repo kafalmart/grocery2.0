@@ -7,6 +7,7 @@ import cartRoutes from "./cart.routes.js";
 import orderRoutes from "./order.routes.js";
 import adminRoutes from "./admin.routes.js";
 import bannerRoutes from "./banner.routes.js";
+import galleryRoutes from "./gallery.routes.js";
 import categoryRoutes from "./category.routes.js";
 import couponRoutes from "./coupon.routes.js";
 import groceryRoutes from "./grocery.routes.js";
@@ -62,6 +63,11 @@ router.use("/partner", partnerRoutes);
    BANNER
 ========================= */
 router.use("/banner", bannerRoutes);
+
+/* =========================
+   GALLERY
+========================= */
+router.use("/gallery", galleryRoutes);
 
 /* =========================
    CATEGORY
