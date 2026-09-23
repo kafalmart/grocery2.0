@@ -12,20 +12,27 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  async redirects() {
+    return [
+      {
+        source: "/adminpanel",
+        destination: "https://epicurean-command.vercel.app",
+        permanent: false,
+      },
+      {
+        source: "/adminpanel/:path*",
+        destination: "https://epicurean-command.vercel.app/:path*",
+        permanent: false,
+      },
+    ];
+  },
+
   async rewrites() {
     return [
       {
         source: "/api/:path*",
         destination:
           "https://slategray-narwhal-323627.hostingersite.com/api/:path*",
-      },
-      {
-        source: "/adminpanel",
-        destination: "https://epicurean-command.vercel.app",
-      },
-      {
-        source: "/adminpanel/:path*",
-        destination: "https://epicurean-command.vercel.app/:path*",
       },
     ];
   },
